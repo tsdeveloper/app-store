@@ -1,0 +1,9 @@
+dotnet  add API/ package Microsoft.EntityFrameworkCore && 
+dotnet  add API/ package Microsoft.EntityFrameworkCore.Relational &&
+dotnet  add API/ package Microsoft.AspNetCore.Identity.EntityFrameworkCore &&
+dotnet  add API/ package Microsoft.EntityFrameworkCore.Design &&
+dotnet  add API/ package Microsoft.EntityFrameworkCore.Sqlite &&
+dotnet  add API/ package Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore
+
+
+

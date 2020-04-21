@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "API"
+		}
+	],
+	"settings": {
+		"sqltools.connections": [
+			{
+				"database": "${workspaceFolder:API}/acessoingresso.db",
+				"dialect": "SQLite",
+				"name": "DefaultConnection",
+				"socketPath": "/media/buildcode/740857510857118A/App/projects/private/my/clients/fazendomais/private/web-dev/asp_core/asp_core/acesso-ingresso-api/API/acessoingresso.db"
+			},
+			{
+				"database": "${workspaceFolder:API}/acessoingresso.db",
+				"dialect": "SQLite",
+				"name": "acessoingresso"
+			}
+		],
+		"sqltools.useNodeRuntime": true
+	}
+}
