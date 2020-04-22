@@ -4,7 +4,7 @@ using API.Data;
 using Core.Entities;
 using Bogus;
 
-namespace API.Seed
+namespace Infrastructure.Seed
 {
     public class AcessoIngressoInitializer
     {
