@@ -27,7 +27,7 @@ namespace API {
 
             services.AddScoped<AcessoIngressoInitializer> ();
             services.AddControllers ();
-            var connectionString = _config.GetConnectionString ("DefaultConnection");
+            var connectionString = _config.GetConnectionString ("MSSQLConn");
             
             services.AddDbContext<AcessoIngressoContext> (o => o.UseSqlServer (connectionString, 
                                                 x => x.MigrationsAssembly("Migrations")));
