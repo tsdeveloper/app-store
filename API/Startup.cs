@@ -25,10 +25,12 @@ namespace API {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
 
-            services.AddScoped<AcessoIngressoInitializer>();
+            services.AddScoped<AcessoIngressoInitializer> ();
             services.AddControllers ();
             var connectionString = _config.GetConnectionString ("DefaultConnection");
-            services.AddDbContext<AcessoIngressoContext> (x => x.UseSqlite (connectionString));
+            
+            services.AddDbContext<AcessoIngressoContext> (o => o.UseSqlServer (connectionString, 
+                                                x => x.MigrationsAssembly("Migrations")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +39,7 @@ namespace API {
                 app.UseDeveloperExceptionPage ();
             }
 
-            seedProducts.SeedDemo();
+            seedProducts.SeedDemo ();
             app.UseHttpsRedirection ();
 
             app.UseRouting ();
