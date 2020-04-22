@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
-using API.Data;
+using Infrastructure.Data;
 using Core.Entities;
 using Bogus;
 
-namespace API.Seed
+namespace Infrastructure.Seed
 {
     public class AcessoIngressoInitializer
     {
@@ -27,7 +27,7 @@ namespace API.Seed
             }
     }
 
-        internal void SeedDemo()
+        public void SeedDemo()
         {
             FactoryProducts();
         }

@@ -1,13 +1,16 @@
 {
 	"folders": [
 		{
+			"name": "API",
 			"path": "API"
 		},
 		{
-			"path": "Core"
+			"name": "Infrastructure",
+			"path": "Infrastructure"
 		},
 		{
-			"path": "Infrastructure"
+			"name": "Core",
+			"path": "Core"
 		}
 	],
 	"settings": {

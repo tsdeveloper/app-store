@@ -1,9 +1,9 @@
 using System.Reflection;
 using Core.Entities;
-using API.Seed;
+using Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Data
+namespace Infrastructure.Data
 {
     public class AcessoIngressoContext : DbContext
     {
