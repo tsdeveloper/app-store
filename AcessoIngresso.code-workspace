@@ -11,6 +11,9 @@
 		{
 			"name": "Core",
 			"path": "Core"
+		},
+		{
+			"path": "Migrations"
 		}
 	],
 	"settings": {
