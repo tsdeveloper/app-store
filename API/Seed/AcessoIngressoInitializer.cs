@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using API.Data;
-using API.Entities;
+using Core.Entities;
 using Bogus;
 
 namespace API.Seed

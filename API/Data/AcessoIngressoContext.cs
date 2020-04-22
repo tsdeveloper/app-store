@@ -1,5 +1,5 @@
 using System.Reflection;
-using API.Entities;
+using Core.Entities;
 using API.Seed;
 using Microsoft.EntityFrameworkCore;
 
