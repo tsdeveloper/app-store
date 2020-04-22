@@ -1,18 +1,23 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using API.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
     public class ProductsController : ControllerBase {
-        private readonly AccessoIngressoContext _context;
-        public ProductsController (AccessoIngressoContext context) {
+        private readonly AcessoIngressoContext _context;
+        public ProductsController (AcessoIngressoContext context) {
             _context = context;
-
         }
 
         [HttpGet]
-        public string GetProducts () {
-            return "this will be..";
+        public async Task<ActionResult> GetProducts () 
+        {
+            var products = await _context.Products.ToListAsync();
+            return Ok(products);
         }
 
         [HttpGet ("{id}")]
