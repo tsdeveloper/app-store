@@ -1,13 +1,11 @@
 using System.Reflection;
 using Core.Entities;
-using Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
     public class AcessoIngressoContext : DbContext
     {
-        private readonly AcessoIngressoInitializer _acessoIngressoInitializer;
         public AcessoIngressoContext(DbContextOptions options) : base(options)
         {
         }

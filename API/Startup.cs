@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repository;
-using Infrastructure.Seed;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +26,7 @@ namespace API {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
 
-            services.AddScoped<AcessoIngressoInitializer> ();
+            
             services.AddScoped<IProductRepository, ProductRepository> ();
             services.AddControllers ();
             var connectionString = _config.GetConnectionString ("MSSQLConn");
@@ -37,12 +36,11 @@ namespace API {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env, AcessoIngressoInitializer seedProducts) {
+        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
             }
 
-            seedProducts.SeedDemo ();
             app.UseHttpsRedirection ();
 
             app.UseRouting ();
