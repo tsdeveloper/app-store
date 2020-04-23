@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Repository;
 using Infrastructure.Seed;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +28,7 @@ namespace API {
         public void ConfigureServices (IServiceCollection services) {
 
             services.AddScoped<AcessoIngressoInitializer> ();
+            services.AddScoped<IProductRepository, ProductRepository> ();
             services.AddControllers ();
             var connectionString = _config.GetConnectionString ("MSSQLConn");
             
