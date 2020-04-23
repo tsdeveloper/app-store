@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.Data;
+using Infrastructure.Factory;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,8 @@ namespace API
                 {
                     var context = services.GetRequiredService<AcessoIngressoContext>();
                     await context.Database.MigrateAsync();
-                    // await AcessoIngressoContextSeed.SeedAsync(context, loggerFactory);
+                    await AcessoIngressoFactoryFake.BuildFactoryAsync(context, loggerFactory);
+                    await AcessoIngressoContextSeed.SeedAsync(context, loggerFactory);
 
                 }
                 catch (Exception ex)
