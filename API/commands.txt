@@ -11,3 +11,9 @@ dotnet  add Infrastructure/ package Microsoft.VisualStudio.Web.CodeGeneration.En
  dotnet ef migrations add Initial_Create -p Migrations -s API &&
  dotnet ef migrations remove -p Migrations -s API &&
  dotnet ef database update -p Migrations/ -s API
+
+ dotnet ef migrations add Initial_Create -p Migrations -s API &&
+ dotnet ef database update -p Migrations/ -s API
+
+ dotnet ef database drop -s API &&
+ dotnet ef migrations remove -p Migrations -s API

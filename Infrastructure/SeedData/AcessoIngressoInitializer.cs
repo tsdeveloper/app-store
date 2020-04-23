@@ -5,7 +5,7 @@ using Core.Entities;
 using Bogus;
 using System.Collections.Generic;
 
-namespace Infrastructure.Seed
+namespace Infrastructure.SeedData
 {
     public class AcessoIngressoInitializer
     {
