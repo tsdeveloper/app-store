@@ -26,34 +26,33 @@ namespace Migrations.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(180)")
+                        .HasMaxLength(180);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("PictureUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ProductBrandId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ProductBrandId1")
+                    b.Property<Guid>("ProductBrandId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ProductTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ProductTypeId1")
+                    b.Property<Guid>("ProductTypeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductBrandId1");
+                    b.HasIndex("ProductBrandId");
 
-                    b.HasIndex("ProductTypeId1");
+                    b.HasIndex("ProductTypeId");
 
                     b.ToTable("Products");
                 });
@@ -69,7 +68,7 @@ namespace Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductBrand");
+                    b.ToTable("ProductBrands");
                 });
 
             modelBuilder.Entity("Core.Entities.ProductType", b =>
@@ -83,18 +82,22 @@ namespace Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductType");
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.HasOne("Core.Entities.ProductBrand", "ProductBrand")
                         .WithMany()
-                        .HasForeignKey("ProductBrandId1");
+                        .HasForeignKey("ProductBrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Core.Entities.ProductType", "ProductType")
                         .WithMany()
-                        .HasForeignKey("ProductTypeId1");
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
