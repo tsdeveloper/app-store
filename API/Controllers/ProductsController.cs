@@ -11,34 +11,40 @@ namespace API.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
     public class ProductsController : ControllerBase {
-        private readonly IProductRepository _productRepository;
+        private readonly IGenericRepository<Product> _productRepo;
+        private readonly IGenericRepository<ProductBrand> _productBrandRepo;
+        private readonly IGenericRepository<ProductType> _productTypeRepo;
 
-        public ProductsController (IProductRepository productRepository) {
-            _productRepository = productRepository;
-            
+
+        public ProductsController (IGenericRepository<Product> productRepo, IGenericRepository<ProductBrand> productBrandRepo,
+            IGenericRepository<ProductType> productTypeRepo)
+        {
+            _productRepo = productRepo;
+            _productBrandRepo = productBrandRepo;
+            _productTypeRepo = productTypeRepo;
         }
 
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts () {
-            var products = await _productRepository.GetProductAllAsync ();
+            var products = await _productRepo.GetTAllAsync ();
             return Ok (products);
         }
 
         [HttpGet ("{id}")]
         public async Task<ActionResult> GetProduct (Guid id) {
-            var products = await _productRepository.GetProductByIdAsync (x => x.Id.Equals(id));
+            var products = await _productRepo.GetByIdAsync (id);
             return Ok (products);
         }
         
         [HttpGet ("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductsBrand () {
-            var productsBrands = await _productRepository.GetProductBrandAllAsync();
+            var productsBrands = await _productRepo.GetTAllAsync();
             return Ok (productsBrands);
         }
         
         [HttpGet ("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductsType () {
-            var productsType = await _productRepository.GetProductTypeAllAsync();
+            var productsType = await _productRepo.GetTAllAsync();
             return Ok (productsType);
         }
 
