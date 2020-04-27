@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +19,7 @@ namespace API.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetProducts () {
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts () {
             var products = await _productRepository.GetProductAllAsync ();
             return Ok (products);
         }
