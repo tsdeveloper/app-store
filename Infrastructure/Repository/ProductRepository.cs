@@ -65,5 +65,57 @@ namespace Infrastructure.Repository {
 
             return null;
         }
+
+        public async Task<IReadOnlyCollection<ProductBrand>> GetProductBrandAllAsync(int page = 1, int pageTotal = 10, Expression<Func<ProductBrand, bool>> filter = null, Expression<Func<IQueryable<ProductBrand>, IOrderedQueryable<ProductBrand>>> orderFilter = null,
+            params Expression<Func<ProductBrand, object>>[] includes)
+        {
+            
+            IQueryable<ProductBrand> query = _context.Set<ProductBrand> ();
+
+            try {
+                foreach (var include in includes)
+                    query = query.Include (include);
+
+                if (filter != null)
+                    query = query.Where (filter);
+
+                if (orderFilter != null)
+                    query = orderFilter.Compile () (query);
+
+                return await query.Skip((page - 1) * pageTotal).Take(pageTotal).ToArrayAsync ();
+
+            } catch (Exception e) {
+
+                Console.WriteLine (e);
+            }
+
+            return null;
+        }
+
+        public async Task<IReadOnlyCollection<ProductType>> GetProductTypeAllAsync(int page = 1, int pageTotal = 10, Expression<Func<ProductType, bool>> filter = null, Expression<Func<IQueryable<ProductType>, IOrderedQueryable<ProductType>>> orderFilter = null,
+            params Expression<Func<ProductType, object>>[] includes)
+        {
+             
+            IQueryable<ProductType> query = _context.Set<ProductType> ();
+
+            try {
+                foreach (var include in includes)
+                    query = query.Include (include);
+
+                if (filter != null)
+                    query = query.Where (filter);
+
+                if (orderFilter != null)
+                    query = orderFilter.Compile () (query);
+
+                return await query.Skip((page - 1) * pageTotal).Take(pageTotal).ToArrayAsync ();
+
+            } catch (Exception e) {
+
+                Console.WriteLine (e);
+            }
+
+            return null;
+        }
     }
 }
