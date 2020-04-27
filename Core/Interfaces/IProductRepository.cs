@@ -19,5 +19,9 @@ namespace Core.Interfaces {
             params Expression<Func<ProductBrand, object>>[] includes);
         
         
+        Task<IReadOnlyCollection<ProductType>> GetProductTypeAllAsync (int page = 1, int pageTotal = 10, 
+            Expression<Func<ProductType, bool>> filter = null, 
+            Expression<Func<IQueryable<ProductType>,IOrderedQueryable<ProductType>>> orderFilter = null, 
+            params Expression<Func<ProductType, object>>[] includes);
     }
 }
