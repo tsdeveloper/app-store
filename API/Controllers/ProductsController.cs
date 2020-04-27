@@ -26,25 +26,25 @@ namespace API.Controllers {
 
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts () {
-            var products = await _productRepo.GetTAllAsync ();
+            var products = await _productRepo.GetTAllAsync (filter: x => x.IsCanceled.Equals(false));
             return Ok (products);
         }
 
         [HttpGet ("{id}")]
         public async Task<ActionResult> GetProduct (Guid id) {
-            var products = await _productRepo.GetByIdAsync (id);
+            var products = await _productRepo.GetByIdAsync (id: id, filter: x => x.IsCanceled.Equals(false));
             return Ok (products);
         }
         
         [HttpGet ("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductsBrand () {
-            var productsBrands = await _productRepo.GetTAllAsync();
+            var productsBrands = await _productBrandRepo.GetTAllAsync(filter: x => x.IsCanceled.Equals(false));
             return Ok (productsBrands);
         }
         
         [HttpGet ("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductsType () {
-            var productsType = await _productRepo.GetTAllAsync();
+            var productsType = await _productTypeRepo.GetTAllAsync(filter: x => x.IsCanceled.Equals(false));
             return Ok (productsType);
         }
 
