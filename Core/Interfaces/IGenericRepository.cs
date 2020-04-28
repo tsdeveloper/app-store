@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Specification;
 
 
 namespace Core.Interfaces
@@ -17,5 +18,8 @@ namespace Core.Interfaces
             Expression<Func<T, bool>> filter = null, 
             Expression<Func<IQueryable<T>,IOrderedQueryable<T>>> orderFilter = null, 
             params Expression<Func<T, object>>[] includes);
+
+        Task<T> GetEntityWithSpec(ISpecification<T> spec);
+        Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
     }
 }
