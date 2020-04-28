@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specification.Products;
@@ -19,15 +20,17 @@ namespace API.Controllers
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
+        private readonly IMapper _mapper;
 
 
         public ProductsController(IGenericRepository<Product> productRepo,
-            IGenericRepository<ProductBrand> productBrandRepo,
-            IGenericRepository<ProductType> productTypeRepo)
+            IGenericRepository<ProductBrand> productBrandRepo, IGenericRepository<ProductType> productTypeRepo,
+            IMapper mapper)
         {
             _productRepo = productRepo;
             _productBrandRepo = productBrandRepo;
             _productTypeRepo = productTypeRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -36,16 +39,7 @@ namespace API.Controllers
             var spec = new ProductsWithTypesAndBransSpecification();
 
             var products = await _productRepo.ListAsync(spec);
-            var productDto = products.Select(p => new ProductToReturnDto
-            {
-                Id = p.Id.ToString(),
-                Name = p.Name,
-                Description = p.Description,
-                PictureUrl = p.PictureUrl,
-                Price = p.Price,
-                ProductBrand = p.ProductBrand.Name,
-                ProductType = p.ProductType.Name
-            });
+            var productDto = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(products);
             
         return Ok(productDto);
         }
@@ -56,18 +50,8 @@ namespace API.Controllers
             var spec = new ProductsWithTypesAndBransSpecification(id);
             
             var product = await _productRepo.GetEntityWithSpec(spec);
-            
-            var productDto = new ProductToReturnDto
-            {
-                Id = product.Id.ToString(),
-                Name = product.Name,
-                Description = product.Description,
-                PictureUrl = product.PictureUrl,
-                Price = product.Price,
-                ProductBrand = product.ProductBrand.Name,
-                ProductType = product.ProductType.Name
-            };
-            
+
+            var productDto = _mapper.Map<ProductToReturnDto>(product);
             return Ok(productDto);
         }
 
