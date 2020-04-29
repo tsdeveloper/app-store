@@ -6,10 +6,29 @@ namespace Core.Specification.Products
 {
     public class ProductsWithTypesAndBransSpecification: BaseSpecification<Product>
     {
-        public ProductsWithTypesAndBransSpecification()
+        public ProductsWithTypesAndBransSpecification(string sort)
         {
             AddInclude(x => x.ProductType);
             AddInclude(x => x.ProductBrand);
+            AddOrderby(x => x.Name);
+
+            if (!string.IsNullOrWhiteSpace(sort))
+            {
+                switch (sort)
+                {
+                    case "priceAsc" :
+                        AddOrderby(p => p.Price);
+                        break;
+                    case "priceDesc" :
+                        AddOrderbyByDescending(p => p.Price);
+                        break;
+                    default:
+                        AddOrderby(p => p.Name);
+                        break;
+                        
+                }
+
+            };
         }
 
         public ProductsWithTypesAndBransSpecification(Guid id, bool isCanceled = false) : 
