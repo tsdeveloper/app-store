@@ -101,30 +101,6 @@ namespace Infrastructure.Data
 
                     var products = JsonConvert.DeserializeObject<List<Product>>(productsData);
 
-
-                    foreach (var product in products)
-                    {
-                        foreach (var brand in brands)
-                        {
-                            var resultExist = context.Products.Any(x => x.ProductBrandId.Equals(brand.Id));
-                            if (!resultExist)
-                            {
-                                product.ProductBrand = brand;
-                                break;
-                            }
-                        }
-
-                        foreach (var productType in productTypes)
-                        {
-                            var resultExist = context.Products.Any(x => x.ProductTypeId.Equals(productType.Id));
-                            if (!resultExist)
-                            {
-                                product.ProductType = productType;
-                                break;
-                            }
-                        }
-                    }
-
                     context.Products.AddRange(products);
                     await context.SaveChangesAsync();
                 }

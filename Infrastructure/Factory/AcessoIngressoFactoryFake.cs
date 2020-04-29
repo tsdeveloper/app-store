@@ -55,18 +55,20 @@ namespace Infrastructure.Factory
 
                             if (!File.Exists(FILE_JSON_PRODUCT_BRANDS))
                             {
-                                var productBrand = new Faker<ProductBrand>()
-                                    .RuleFor(p => p.Id, p => p.Random.Guid())
-                                    .RuleFor(p => p.Name, p => p.Commerce.ProductName())
-                                    .Generate(100);
-
-                                fakerProductBrandList.AddRange(productBrand);
-                                using (var file = File.CreateText(FILE_JSON_PRODUCT_BRANDS))
-                                {
-                                    var serializer = new JsonSerializer();
-                                    serializer.Serialize(file, fakerProductBrandList);
-                                }
+                               File.Delete(FILE_JSON_PRODUCT_BRANDS);
                             }
+                        
+                        var productBrand = new Faker<ProductBrand>()
+                            .RuleFor(p => p.Id, p => p.Random.Guid())
+                            .RuleFor(p => p.Name, p => p.Commerce.ProductName())
+                            .Generate(100);
+
+                        fakerProductBrandList.AddRange(productBrand);
+                        using (var file = File.CreateText(FILE_JSON_PRODUCT_BRANDS))
+                        {
+                            var serializer = new JsonSerializer();
+                            serializer.Serialize(file, fakerProductBrandList);
+                        }
                     }
                     catch (System.Exception ex)
                     {
@@ -88,20 +90,24 @@ namespace Infrastructure.Factory
                     {
                         if (!context.ProductTypes.Any())
 
-                            if (!File.Exists(FILE_JSON_PRODUCT_TYPES))
+                            if (File.Exists(FILE_JSON_PRODUCT_TYPES))
                             {
-                                var productType = new Faker<ProductType>()
-                                    .RuleFor(p => p.Id, p => p.Random.Guid())
-                                    .RuleFor(p => p.Name, p => p.Commerce.ProductName())
-                                    .Generate(100);
-
-                                fakerProductTypeList.AddRange(productType);
-                                using (var file = File.CreateText(FILE_JSON_PRODUCT_TYPES))
-                                {
-                                    var serializer = new JsonSerializer();
-                                    serializer.Serialize(file, fakerProductTypeList);
-                                }
+                                File.Delete(FILE_JSON_PRODUCT_TYPES);
                             }
+                        
+                        var productType = new Faker<ProductType>()
+                            .RuleFor(p => p.Id, p => p.Random.Guid())
+                            .RuleFor(p => p.Name, p => p.Commerce.ProductName())
+                            .Generate(100);
+
+                        fakerProductTypeList.AddRange(productType);
+                            
+                                
+                        using (var file = File.CreateText(FILE_JSON_PRODUCT_TYPES))
+                        {
+                            var serializer = new JsonSerializer();
+                            serializer.Serialize(file, fakerProductTypeList);
+                        }
                     }
                     catch (System.Exception ex)
                     {
@@ -121,23 +127,47 @@ namespace Infrastructure.Factory
                 {
                     if (!context.Products.Any())
 
-                        if (!File.Exists(FILE_JSON_PRODUCT))
+                        if (File.Exists(FILE_JSON_PRODUCT))
                         {
-                            var product = new Faker<Product>()
-                                .RuleFor(p => p.Id, p => p.Random.Guid())
-                                .RuleFor(p => p.Name, p => p.Commerce.ProductName())
-                                .RuleFor(p => p.Description, p => p.Commerce.Product())
-                                .RuleFor(p => p.Price, p => p.Random.Decimal(10, 100))
-                                .RuleFor(p => p.PictureUrl, p => p.Internet.Avatar())
-                                .Generate(100);
+                           File.Delete(FILE_JSON_PRODUCT);
+                        }
+                    var productList = new Faker<Product>()
+                        .RuleFor(p => p.Id, p => p.Random.Guid())
+                        .RuleFor(p => p.Name, p => p.Commerce.ProductName())
+                        .RuleFor(p => p.Description, p => p.Commerce.Product())
+                        .RuleFor(p => p.Price, p => p.Random.Decimal(10, 100))
+                        .RuleFor(p => p.PictureUrl, p => p.Internet.Avatar())
+                        .Generate(100);
 
-                            fakerProductList.AddRange(product);
-                            using (var file = File.CreateText(FILE_JSON_PRODUCT))
+                    foreach (var product in productList)
+                    {
+                        foreach (var productBrand in fakerProductBrandList)
+                        {
+                            var productExist = productList.Any(x => x.ProductBrandId.Equals(productBrand.Id));
+                            if (!productExist)
                             {
-                                var serializer = new JsonSerializer();
-                                serializer.Serialize(file, fakerProductList);
+                                product.ProductBrandId = productBrand.Id;
+                                continue;
                             }
                         }
+                        
+                        foreach (var productType in fakerProductTypeList)
+                        {
+                            var productExist = productList.Any(x => x.ProductTypeId.Equals(productType.Id));
+                            if (!productExist)
+                            {
+                                product.ProductTypeId = productType.Id;
+                                continue;
+                            }
+                        }
+                    }
+                            
+                    fakerProductList.AddRange(productList);
+                    using (var file = File.CreateText(FILE_JSON_PRODUCT))
+                    {
+                        var serializer = new JsonSerializer();
+                        serializer.Serialize(file, fakerProductList);
+                    }
                 }
                 catch (System.Exception ex)
                 {

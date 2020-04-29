@@ -9,8 +9,8 @@ namespace API.Helpers
         public MappingProfiles()
         {
             CreateMap<Product, ProductToReturnDto>()
-                .ForMember(x => x.ProductBrandName, opt => opt.MapFrom(z => z.ProductBrand != null ? z.ProductBrand.Name : null))
-                .ForMember(x => x.ProductTypeName, opt => opt.MapFrom(z => z.ProductType != null ? z.ProductType.Name : null))
+                .ForMember(x => x.ProductBrand, opt => opt.MapFrom(z => z.ProductBrand != null ? z.ProductBrand.Name : null))
+                .ForMember(x => x.ProductType, opt => opt.MapFrom(z => z.ProductType != null ? z.ProductType.Name : null))
                 .ForMember(x => x.PictureUrl, opt => opt.MapFrom<ProductUrlResolver>())
                 .ReverseMap();
         }
