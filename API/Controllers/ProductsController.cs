@@ -39,12 +39,7 @@ namespace API.Controllers
 
             var products = await _productRepo.ListAsync(spec);
             var productDto = _mapper.Map<List<ProductToReturnDto>>(products.ToList());
-            // var productDtoList = new List<ProductToReturnDto>();
-            // for (int i = 0; i < 5; i++)
-            // {
-            //     productDtoList.Add(new ProductToReturnDto {Id = Guid.NewGuid().ToString(), Description = "Product-" + Guid.NewGuid().ToString().Substring(0,6)});    
-            // }
-
+           
             var productList = _mapper.Map<IReadOnlyList<Product>>(productDto);
             
         return Ok(productList);
