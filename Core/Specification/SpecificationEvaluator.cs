@@ -19,6 +19,9 @@ namespace Core.Specification
             if (spec.OrderbyByDescending != null)
                 query = query.OrderByDescending(spec.OrderbyByDescending);
 
+            if (spec.IsPagingEnabled)
+                query = query.Skip(spec.Skip).Take(spec.Take);
+
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
 
             return query;
