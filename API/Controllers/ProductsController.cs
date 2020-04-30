@@ -7,6 +7,7 @@ using API.Errors;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Specification;
 using Core.Specification.Products;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
@@ -36,9 +37,9 @@ namespace API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(
-            string sort, Guid? brandId, Guid? typeId)
+            [FromQuery] ProductSpecParams productParams)
         {
-            var spec = new ProductsWithTypesAndBransSpecification(sort, brandId, typeId);
+            var spec = new ProductsWithTypesAndBransSpecification(productParams);
 
             var products = await _productRepo.ListAsync(spec);
             var productDtoList = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(products.ToList());
@@ -49,9 +50,9 @@ namespace API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ProductToReturnDto>> GetProduct(Guid id)
+        public async Task<ActionResult<ProductToReturnDto>> GetProduct([FromQuery] ProductSpecParams productParams)
         {
-            var spec = new ProductsWithTypesAndBransSpecification(id);
+            var spec = new ProductsWithTypesAndBransSpecification(productParams);
             
             var product = await _productRepo.GetEntityWithSpec(spec);
 

@@ -1,0 +1,11 @@
+
+###
+GET https://localhost:5001/api/products?sort=priceDesc&pageSize=2
+Accept: */*
+Content-Type: application/json Cookie: key=first-value
+Cache-Control: no-cache
+
+<> 2020-04-29T091801.200.json
+
+###
+

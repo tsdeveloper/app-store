@@ -6,19 +6,20 @@ namespace Core.Specification.Products
 {
     public class ProductsWithTypesAndBransSpecification: BaseSpecification<Product>
     {
-        public ProductsWithTypesAndBransSpecification(string sort, Guid? brandId, Guid? typeId)
+        public ProductsWithTypesAndBransSpecification(ProductSpecParams productParams)
         : base(x =>
-                (!brandId.HasValue || x.ProductBrandId.Equals(brandId)) &&
-                (!typeId.HasValue || x.ProductTypeId.Equals(typeId))
+                (!productParams.BrandId.HasValue || x.ProductBrandId.Equals(productParams.BrandId)) &&
+                (!productParams.TypeId.HasValue || x.ProductTypeId.Equals(productParams.TypeId))
             )
         {
             AddInclude(x => x.ProductType);
             AddInclude(x => x.ProductBrand);
             AddOrderby(x => x.Name);
+            ApplyPaging(productParams.PageSize * (productParams.PageIndex - 1), productParams.PageSize);
 
-            if (!string.IsNullOrWhiteSpace(sort))
+            if (!string.IsNullOrWhiteSpace(productParams.Sort))
             {
-                switch (sort)
+                switch (productParams.Sort)
                 {
                     case "priceAsc" :
                         AddOrderby(p => p.Price);
@@ -35,7 +36,7 @@ namespace Core.Specification.Products
             };
         }
 
-        public ProductsWithTypesAndBransSpecification(Guid id, bool isCanceled = false) : 
+        public ProductsWithTypesAndBransSpecification(ProductSpecParams id, bool isCanceled = false) : 
             base(x => x.Id.Equals(id) && x.IsCanceled.Equals(isCanceled))
         {
             AddInclude(x => x.ProductType);
