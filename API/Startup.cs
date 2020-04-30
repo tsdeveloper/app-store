@@ -36,9 +36,9 @@ namespace API {
         
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers ();
-            var connectionString = _config.GetConnectionString ("MSSQLConn");
+            var connectionString = _config.GetConnectionString ("SqlLiteConn");
             
-            services.AddDbContext<AcessoIngressoContext> (o => o.UseSqlServer (connectionString, 
+            services.AddDbContext<AcessoIngressoContext> (o => o.UseSqlite(connectionString, 
                                                 x => x.MigrationsAssembly("Migrations")));
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
