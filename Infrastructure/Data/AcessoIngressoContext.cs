@@ -11,10 +11,7 @@ namespace Infrastructure.Data
         {
         }
 
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductBrand> ProductBrands { get; set; }
-        public DbSet<ProductType> ProductTypes { get; set; }
-
+       
         protected override void OnModelCreating(ModelBuilder m)
         {
             base.OnModelCreating(m);
@@ -59,5 +56,12 @@ namespace Infrastructure.Data
                 .GetValue(internalContext, null);
         }
 
+    }
+    
+    public static class AcessoIngressoContextExtensions {
+        public static DbSet<TEntityType> DbSet<TEntityType> (this AcessoIngressoContext context)
+            where TEntityType : class {
+            return context.Set<TEntityType> ();
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Infrastructure.SeedData
         private void FactoryProductBrands()
         {
 
-            if (!_context.ProductBrands.Any())
+            if (!_context.DbSet<ProductBrand>().Any())
             {
                 var productBrand = new Faker<ProductBrand>()
                     .RuleFor(p => p.Id, p => p.Random.Guid())
@@ -31,7 +31,7 @@ namespace Infrastructure.SeedData
 
                 fakerProductBrandList.AddRange(productBrand);
 
-                _context.ProductBrands.AddRange(fakerProductBrandList);
+                _context.DbSet<ProductBrand>().AddRange(fakerProductBrandList);
                 _context.SaveChanges();
             }
         }
@@ -39,7 +39,7 @@ namespace Infrastructure.SeedData
         private void FactoryProductTypes()
         {
 
-            if (!_context.ProductTypes.Any())
+            if (!_context.DbSet<ProductType>().Any())
             {
                 var productType = new Faker<ProductType>()
                     .RuleFor(p => p.Id, p => p.Random.Guid())
@@ -48,7 +48,7 @@ namespace Infrastructure.SeedData
 
                 fakerProductTypeList.AddRange(productType);
 
-                _context.ProductTypes.AddRange(fakerProductTypeList);
+                _context.DbSet<ProductType>().AddRange(fakerProductTypeList);
                 _context.SaveChanges();
             }
         }
@@ -56,7 +56,7 @@ namespace Infrastructure.SeedData
         private void FactoryProducts()
         {
             
-            if (!_context.Products.Any()){
+            if (!_context.DbSet<Product>().Any()){
                 var category = new Faker<Product>()
                     .RuleFor(p => p.Id, p => p.Random.Guid())
                     .RuleFor(p => p.Name, p => p.Commerce.ProductName())
@@ -67,7 +67,7 @@ namespace Infrastructure.SeedData
 
                 fakerProductList.AddRange(category);
                 
-                _context.Products.AddRange(fakerProductList);
+                _context.DbSet<Product>().AddRange(fakerProductList);
                 _context.SaveChanges();
             }
     }

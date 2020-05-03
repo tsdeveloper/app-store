@@ -9,6 +9,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Specification;
 using Core.Specification.Products;
+using Core.Specification.Products.SpecParams;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

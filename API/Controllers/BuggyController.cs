@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using API.Errors;
+using Core.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace API.Controllers
         [HttpGet("notfound")]
         public ActionResult GetNotFoundRequest()
         {
-            var thing = _context.Products.Find(Guid.NewGuid());
+            var thing = _context.DbSet<Product>().Find(Guid.NewGuid());
 
             if (thing == null)
                 return NotFound(new ApiResponse(404));
@@ -29,7 +30,7 @@ namespace API.Controllers
         [HttpGet("servererror")]
         public ActionResult GetServerError()
         {
-            var thing = _context.Products.Find(Guid.NewGuid());
+            var thing = _context.DbSet<Product>().Find(Guid.NewGuid());
 
             
             return Ok(thing.ToString());
@@ -38,7 +39,7 @@ namespace API.Controllers
         [HttpGet("badrequest")]
         public ActionResult GetBadRequest()
         {
-            var thing = _context.Products.Find(Guid.NewGuid());
+            var thing = _context.DbSet<Product>().Find(Guid.NewGuid());
 
             if (thing == null)
                 return NotFound(new ApiResponse(400));

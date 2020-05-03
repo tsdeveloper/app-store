@@ -1,9 +1,9 @@
 using System;
 using Core.Entities;
 
-namespace Core.Specification
+namespace Core.Specification.Tickets.SpecParams
 {
-    public class ProductSpecParams : BaseEntity
+    public class TicketSpecParams : BaseEntity
     {
         private const int MaxPageSize = 50;
         public int PageIndex { get; set; } =  1;
@@ -15,8 +15,7 @@ namespace Core.Specification
             set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
         }
 
-        public Guid? BrandId { get; set; }
-        public Guid? TypeId { get; set; }
+        public Guid? EventId { get; set; }
         public string Sort { get; set; }
     }
 }

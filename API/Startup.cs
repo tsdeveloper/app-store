@@ -36,10 +36,13 @@ namespace API {
         
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers ();
-            var connectionString = _config.GetConnectionString ("SqlLiteConn");
+            var dbConn = _config.GetConnectionString ("MySqlConn");
             
-            services.AddDbContext<AcessoIngressoContext> (o => o.UseSqlite(connectionString, 
+            services.AddDbContext<AcessoIngressoContext> (o => o.UseMySql(dbConn, 
                                                 x => x.MigrationsAssembly("Migrations")));
+            
+          
+            
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
         }
