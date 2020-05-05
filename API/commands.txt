@@ -6,14 +6,28 @@ dotnet  add Infrastructure/ package Microsoft.EntityFrameworkCore.Sqlite &&
 dotnet  add Infrastructure/ package Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore
 
 
+##### MULTI CONTEXT #####
+##DROP
+ dotnet ef database drop -s <api-project>
+ 
+##UPDATE
+ dotnet ef database update -p <assembly> -s <api-project> -c <namespace-full-dbcontext> 
 
- dotnet ef database drop -s API &&
-  dotnet ef migrations remove -p Migrations -s API &&
- dotnet ef migrations add Initial_Create -p Migrations -s API &&
- dotnet ef database update -p Migrations/ -s API
+##ADD
+dotnet ef migrations add <name-migrations>  -p <assembly> -s <api-project> -c <namespace-full-dbcontext> -o <path-migrations>
+dotnet ef database update   -p <assembly> -s <api-project> -c <namespace-full-dbcontext> 
 
- dotnet ef migrations add Initial_Create -p Migrations -s API &&
- dotnet ef database update -p Migrations/ -s API
+##REMOVE
+dotnet ef migrations remove p <assembly> -s <api-project> -c <namespace-full-dbcontext>
 
- dotnet ef database drop -s API &&
- dotnet ef migrations remove -p Migrations -s API
+##### PROJECTS #####
+#acesso ingresso
+-p Migrations
+-s API
+
+
+#SKINET 
+-p Infrastructure
+-s API
+-c Infrastructure.Data.StoreContext
+-c Infrastructure.Identity.AppIdentityDbContext
