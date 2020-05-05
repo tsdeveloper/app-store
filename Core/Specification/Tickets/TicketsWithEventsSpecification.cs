@@ -7,7 +7,7 @@ namespace Core.Specification.Tickets
     {
         public TicketsWithEventsSpecification(TicketSpecParams voucherSpecParams)
         : base(x =>
-                !voucherSpecParams.EventId.HasValue || x.EventId.Equals(voucherSpecParams.EventId)
+            x.Event.CodePublish.Equals(voucherSpecParams.CodePublish)
             )
         {
             AddInclude(x => x.Event);

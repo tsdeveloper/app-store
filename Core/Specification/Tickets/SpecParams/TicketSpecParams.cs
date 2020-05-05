@@ -15,7 +15,7 @@ namespace Core.Specification.Tickets.SpecParams
             set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
         }
 
-        public Guid? EventId { get; set; }
+        public string CodePublish { get; set; }
         public string Sort { get; set; }
     }
 }

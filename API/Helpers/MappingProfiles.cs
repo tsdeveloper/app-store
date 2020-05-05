@@ -24,7 +24,7 @@ namespace API.Helpers
                 .ReverseMap();
             
             
-            CreateMap<Ticket, VoucherToReturnDto>()
+            CreateMap<Ticket, TicketToReturnDto>()
                 .ReverseMap();
         }
     }

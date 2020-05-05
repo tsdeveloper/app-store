@@ -3,7 +3,7 @@ using Core.Entities;
 
 namespace API.Dtos
 {
-    public class VoucherToReturnDto : BaseEntity
+    public class TicketToReturnDto : BaseEntity
     {
         public string Description { get; set; }
         public string NameDisplayUrl { get; set; }

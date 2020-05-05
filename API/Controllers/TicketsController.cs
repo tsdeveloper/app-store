@@ -34,13 +34,13 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<VoucherToReturnDto>>> GetVouchers(
+        public async Task<ActionResult<IReadOnlyList<TicketToReturnDto>>> GetVouchers(
             [FromQuery] TicketSpecParams tickerSpecParams)
         {
             var spec = new TicketsWithEventsSpecification(tickerSpecParams);
 
             var tickers = await _tickerRepo.ListAsync(spec);
-            var tickerDtoList = _mapper.Map<IReadOnlyList<VoucherToReturnDto>>(tickers.ToList());
+            var tickerDtoList = _mapper.Map<IReadOnlyList<TicketToReturnDto>>(tickers.ToList());
             
         return Ok(tickerDtoList);
         }
@@ -48,7 +48,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<VoucherToReturnDto>> GetVoucher([FromQuery] TicketSpecParams tickerSpecParams)
+        public async Task<ActionResult<TicketToReturnDto>> GetVoucher([FromQuery] TicketSpecParams tickerSpecParams)
         {
             var spec = new TicketsWithEventsSpecification(tickerSpecParams);
             
@@ -56,7 +56,7 @@ namespace API.Controllers
 
             if (tickerClient == null) return NotFound(new ApiResponse(400));
             
-            var tickerDto = _mapper.Map<VoucherToReturnDto>(tickerClient);
+            var tickerDto = _mapper.Map<TicketToReturnDto>(tickerClient);
             return Ok(tickerDto);
         }
 

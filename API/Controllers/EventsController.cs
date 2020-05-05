@@ -11,6 +11,8 @@ using Core.Specification;
 using Core.Specification.Events;
 using Core.Specification.Events;
 using Core.Specification.Events.SpecParams;
+using Core.Specification.Tickets;
+using Core.Specification.Tickets.SpecParams;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,16 +24,16 @@ namespace API.Controllers
     public class EventsController : BaseApiController
     {
         private readonly IGenericRepository<Event> _eventRepo;
-        private readonly IGenericRepository<Ticket> _voucherRepo;
+        private readonly IGenericRepository<Ticket> _tickerRepo;
         private readonly IMapper _mapper;
 
 
-        public EventsController(IGenericRepository<Event> eventRepo, IGenericRepository<Ticket> voucherRepo,
+        public EventsController(IGenericRepository<Event> eventRepo, IGenericRepository<Ticket> tickerRepo,
             IMapper mapper)
         {
             _eventRepo = eventRepo;
             _eventRepo = eventRepo;
-            _voucherRepo = voucherRepo;
+            _tickerRepo = tickerRepo;
             _mapper = mapper;
         }
 
@@ -47,7 +49,7 @@ namespace API.Controllers
         return Ok(eventDtoList);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<EventToReturnDto>> GetEvent([FromQuery] EventSpecParams eventSpecParams)
@@ -61,6 +63,22 @@ namespace API.Controllers
             var eventDto = _mapper.Map<EventToReturnDto>(eventClient);
             return Ok(eventDto);
         }
+        
+        [HttpGet]
+        [Route("evento-cliente/{codePublish}/ingressos")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<TicketToReturnDto>> GetTicketByEventId([FromRoute] TicketSpecParams ticketSpecParams)
+        {
+       
+            var spec = new TicketsWithEventsSpecification(ticketSpecParams);
+            
+            var ticketClient = await _tickerRepo.ListAsync(spec);
+
+            var ticketToReturn = _mapper.Map<IReadOnlyList<TicketToReturnDto>>(ticketClient);
+            return Ok(ticketToReturn);
+        }
+
 
        
     }
