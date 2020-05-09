@@ -10,9 +10,9 @@ namespace API.Controllers
     
     public class BuggyController : BaseApiController
     {
-        private readonly AcessoIngressoContext _context;
+        private readonly ContextApp _context;
 
-        public BuggyController(AcessoIngressoContext context)
+        public BuggyController(ContextApp context)
         {
             _context = context;
         }

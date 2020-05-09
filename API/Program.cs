@@ -26,10 +26,10 @@ namespace API
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
-                    var context = services.GetRequiredService<AcessoIngressoContext>();
+                    var context = services.GetRequiredService<ContextApp>();
                     await context.Database.MigrateAsync();
-                    await AcessoIngressoFactoryFake.BuildFactoryAsync(context, loggerFactory);
-                    await AcessoIngressoContextSeed.SeedAsync(context, loggerFactory);
+                    await BuildFactoryFake.BuildFactoryAsync(context, loggerFactory);
+                    await BuildFactorySeed.SeedAsync(context, loggerFactory);
 
                 }
                 catch (Exception ex)
