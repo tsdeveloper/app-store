@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class AcessoIngressoContext : DbContext
+    public class ContextApp : DbContext
     {
-        public AcessoIngressoContext(DbContextOptions options) : base(options)
+        public ContextApp(DbContextOptions options) : base(options)
         {
         }
 
@@ -58,8 +58,8 @@ namespace Infrastructure.Data
 
     }
     
-    public static class AcessoIngressoContextExtensions {
-        public static DbSet<TEntityType> DbSet<TEntityType> (this AcessoIngressoContext context)
+    public static class ContextAppExtensions {
+        public static DbSet<TEntityType> DbSet<TEntityType> (this ContextApp context)
             where TEntityType : class {
             return context.Set<TEntityType> ();
         }

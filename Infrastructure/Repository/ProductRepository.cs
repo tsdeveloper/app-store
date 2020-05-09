@@ -10,10 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository {
     public class ProductRepository : IProductRepository {
-        private readonly AcessoIngressoContext _context;
+        private readonly ContextApp _context;
         protected DbSet<Product> DbSet;
 
-        public ProductRepository (AcessoIngressoContext context) {
+        public ProductRepository (ContextApp context) {
             _context = context;
             DbSet = _context.Set<Product> ();
 

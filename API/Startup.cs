@@ -36,7 +36,7 @@ namespace API {
             services.AddControllers ();
             var dbConn = _config.GetConnectionString ("MySqlConn");
             
-            services.AddDbContext<AcessoIngressoContext> (o => o.UseMySql(dbConn, 
+            services.AddDbContext<ContextApp> (o => o.UseMySql(dbConn, 
                                                 x => x.MigrationsAssembly("Migrations")));
             
           

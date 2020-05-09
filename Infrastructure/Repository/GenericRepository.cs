@@ -13,9 +13,9 @@ namespace Infrastructure.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private readonly AcessoIngressoContext _context;
+        private readonly ContextApp _context;
 
-        public GenericRepository(AcessoIngressoContext context)
+        public GenericRepository(ContextApp context)
         {
             _context = context;
         }

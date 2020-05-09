@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace Infrastructure.Factory
 {
-    public class AcessoIngressoFactoryFake
+    public class BuildFactoryFake
     {
         private static List<Product> fakerProductList = new List<Product>();
         private static List<ProductBrand> fakerProductBrandList = new List<ProductBrand>();
@@ -29,7 +29,7 @@ namespace Infrastructure.Factory
         private const string FILE_JSON_CLIENT = @"../Infrastructure/SeedData/Client.json";
         private const string FILE_JSON_TICKET = @"../Infrastructure/SeedData/Ticket.json";
 
-        public static async Task BuildFactoryAsync(AcessoIngressoContext context, ILoggerFactory loggerFactory)
+        public static async Task BuildFactoryAsync(ContextApp context, ILoggerFactory loggerFactory)
         {
             try
             {
@@ -57,11 +57,11 @@ namespace Infrastructure.Factory
             }
             catch (System.Exception ex)
             {
-                var logger = loggerFactory.CreateLogger<AcessoIngressoFactoryFake>();
+                var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
                 logger.LogError(ex.Message);
             }
         }
-        private static async Task GenerateBuildFactoryClient(AcessoIngressoContext context, ILoggerFactory loggerFactory, bool runBuildFactory = false)
+        private static async Task GenerateBuildFactoryClient(ContextApp context, ILoggerFactory loggerFactory, bool runBuildFactory = false)
         {
             Task.Run(() =>
             {
@@ -94,13 +94,13 @@ namespace Infrastructure.Factory
                     }
                     catch (System.Exception ex)
                     {
-                        var logger = loggerFactory.CreateLogger<AcessoIngressoFactoryFake>();
+                        var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
                         logger.LogError(ex.Message);
                     }
                 }
             }).Wait();
         }
-        private static async Task GenerateBuildFactoryEvent(AcessoIngressoContext context, ILoggerFactory loggerFactory, bool  runBuildFactory = false)
+        private static async Task GenerateBuildFactoryEvent(ContextApp context, ILoggerFactory loggerFactory, bool  runBuildFactory = false)
         {
             Task.Run(() =>
             {
@@ -147,14 +147,14 @@ namespace Infrastructure.Factory
                     }
                     catch (System.Exception ex)
                     {
-                        var logger = loggerFactory.CreateLogger<AcessoIngressoFactoryFake>();
+                        var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
                         logger.LogError(ex.Message);
                     }
                 }
             }).Wait();
         }
 
-        private static async Task GenerateBuildFactoryTicke(AcessoIngressoContext context, ILoggerFactory loggerFactory, bool  runBuildFactory = false)
+        private static async Task GenerateBuildFactoryTicke(ContextApp context, ILoggerFactory loggerFactory, bool  runBuildFactory = false)
         {
             Task.Run(() =>
             {
@@ -202,7 +202,7 @@ namespace Infrastructure.Factory
                     }
                     catch (System.Exception ex)
                     {
-                        var logger = loggerFactory.CreateLogger<AcessoIngressoFactoryFake>();
+                        var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
                         logger.LogError(ex.Message);
                     }
                 }
@@ -211,7 +211,7 @@ namespace Infrastructure.Factory
 
 
 
-        private static async Task GenerateBuildFactoryProductBrand(AcessoIngressoContext context,
+        private static async Task GenerateBuildFactoryProductBrand(ContextApp context,
             ILoggerFactory loggerFactory, bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -241,14 +241,14 @@ namespace Infrastructure.Factory
                     }
                     catch (System.Exception ex)
                     {
-                        var logger = loggerFactory.CreateLogger<AcessoIngressoFactoryFake>();
+                        var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
                         logger.LogError(ex.Message);
                     }
                 }
             }).Wait();
         }
 
-        private static async Task GenerateBuildFactoryProductType(AcessoIngressoContext context,
+        private static async Task GenerateBuildFactoryProductType(ContextApp context,
             ILoggerFactory loggerFactory, bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -280,14 +280,14 @@ namespace Infrastructure.Factory
                     }
                     catch (System.Exception ex)
                     {
-                        var logger = loggerFactory.CreateLogger<AcessoIngressoFactoryFake>();
+                        var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
                         logger.LogError(ex.Message);
                     }
                 }
             }).Wait();
         }
 
-        private static async Task GenerateBuildFactoryProduct(AcessoIngressoContext context,
+        private static async Task GenerateBuildFactoryProduct(ContextApp context,
             ILoggerFactory loggerFactory, bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -340,7 +340,7 @@ namespace Infrastructure.Factory
                 }
                 catch (System.Exception ex)
                 {
-                    var logger = loggerFactory.CreateLogger<AcessoIngressoFactoryFake>();
+                    var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
                     logger.LogError(ex.Message);
                 }
             }).Wait();

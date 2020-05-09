@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Infrastructure.Data
 {
-    public class AcessoIngressoContextSeed
+    public class BuildFactorySeed
     {
         private static List<Client> clients;
         private static List<Event> events;
@@ -25,7 +25,7 @@ namespace Infrastructure.Data
         private const string FILE_JSON_CLIENT = @"../Infrastructure/SeedData/Client.json";
         private const string FILE_JSON__TICKET= @"../Infrastructure/SeedData/Ticket.json";
 
-        public static async Task SeedAsync(AcessoIngressoContext context, ILoggerFactory loggerFactory)
+        public static async Task SeedAsync(ContextApp context, ILoggerFactory loggerFactory)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Infrastructure.Data
             }
         }
 
-        private static async Task GenerateBuildFactoryClient(AcessoIngressoContext context, ILoggerFactory loggerFactory, bool runSeed = false)
+        private static async Task GenerateBuildFactoryClient(ContextApp context, ILoggerFactory loggerFactory, bool runSeed = false)
         {
             if (runSeed && !context.DbSet<Client>().Any())
             {
@@ -73,7 +73,7 @@ namespace Infrastructure.Data
                 }
                 catch (Exception ex)
                 {
-                    var logger = loggerFactory.CreateLogger<AcessoIngressoContextSeed>();
+                    var logger = loggerFactory.CreateLogger<BuildFactorySeed>();
                     logger.LogError(ex, "An error occured during seed Client db");
                 }
             }
@@ -82,7 +82,7 @@ namespace Infrastructure.Data
             clients = context.DbSet<Client>().ToList();
         }
 
-        private static async Task GenerateBuildFactoryEvent(AcessoIngressoContext context, ILoggerFactory loggerFactory, bool runSeed = false)
+        private static async Task GenerateBuildFactoryEvent(ContextApp context, ILoggerFactory loggerFactory, bool runSeed = false)
         {
             if (runSeed && !context.DbSet<Event>().Any())
             {
@@ -98,7 +98,7 @@ namespace Infrastructure.Data
                 }
                 catch (Exception ex)
                 {
-                    var logger = loggerFactory.CreateLogger<AcessoIngressoContextSeed>();
+                    var logger = loggerFactory.CreateLogger<BuildFactorySeed>();
                     logger.LogError(ex, "An error occured during seed Event db");
                 }
             }
@@ -107,7 +107,7 @@ namespace Infrastructure.Data
             events = context.DbSet<Event>().ToList();
         }
 
-        private static async Task GenerateBuildFactoryTicker(AcessoIngressoContext context, ILoggerFactory loggerFactory, bool runSeed = false)
+        private static async Task GenerateBuildFactoryTicker(ContextApp context, ILoggerFactory loggerFactory, bool runSeed = false)
         {
             if (runSeed && !context.DbSet<Ticket>().Any())
             {
@@ -123,7 +123,7 @@ namespace Infrastructure.Data
                 }
                 catch (Exception ex)
                 {
-                    var logger = loggerFactory.CreateLogger<AcessoIngressoContextSeed>();
+                    var logger = loggerFactory.CreateLogger<BuildFactorySeed>();
                     logger.LogError(ex, "An error occured during seed Ticker db");
                 }
             }
@@ -132,7 +132,7 @@ namespace Infrastructure.Data
             tickets = context.DbSet<Ticket>().ToList();
         }
 
-        private static async Task GenerateSeedProductBrand(AcessoIngressoContext context, ILoggerFactory loggerFactory,
+        private static async Task GenerateSeedProductBrand(ContextApp context, ILoggerFactory loggerFactory,
             bool runSeed = false)
         {
             if (runSeed && !context.DbSet<ProductBrand>().Any())
@@ -149,7 +149,7 @@ namespace Infrastructure.Data
                 }
                 catch (Exception ex)
                 {
-                    var logger = loggerFactory.CreateLogger<AcessoIngressoContextSeed>();
+                    var logger = loggerFactory.CreateLogger<BuildFactorySeed>();
                     logger.LogError(ex, "An error occured during seed ProductBrand db");
                 }
             }
@@ -158,7 +158,7 @@ namespace Infrastructure.Data
             brands = context.DbSet<ProductBrand>().ToList();
         }
 
-        private static async Task GenerateSeedProductType(AcessoIngressoContext context, ILoggerFactory loggerFactory,
+        private static async Task GenerateSeedProductType(ContextApp context, ILoggerFactory loggerFactory,
             bool runSeed = false)
         {
             if (runSeed && !context.DbSet<ProductType>().Any())
@@ -175,7 +175,7 @@ namespace Infrastructure.Data
                 }
                 catch (Exception ex)
                 {
-                    var logger = loggerFactory.CreateLogger<AcessoIngressoContextSeed>();
+                    var logger = loggerFactory.CreateLogger<BuildFactorySeed>();
                     logger.LogError(ex, "An error occured during seed ProductType db");
                 }
             }
@@ -183,7 +183,7 @@ namespace Infrastructure.Data
             productTypes = context.DbSet<ProductType>().ToList();
         }
 
-        private static async Task GenerateSeedProduct(AcessoIngressoContext context, ILoggerFactory loggerFactory,
+        private static async Task GenerateSeedProduct(ContextApp context, ILoggerFactory loggerFactory,
             bool runSeed = false)
         {
             if (runSeed && !context.DbSet<Product>().Any())
@@ -199,7 +199,7 @@ namespace Infrastructure.Data
                 }
                 catch (Exception ex)
                 {
-                    var logger = loggerFactory.CreateLogger<AcessoIngressoContextSeed>();
+                    var logger = loggerFactory.CreateLogger<BuildFactorySeed>();
                     logger.LogError(ex, "An error occured during seed Product db");
                     ;
                 }

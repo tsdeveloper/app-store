@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Migrations.Migrations
 {
-    [DbContext(typeof(AcessoIngressoContext))]
+    [DbContext(typeof(ContextApp))]
     partial class AcessoIngressoContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
