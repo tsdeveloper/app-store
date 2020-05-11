@@ -48,38 +48,6 @@ namespace API.Controllers
             
         return Ok(eventDtoList);
         }
-
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<EventToReturnDto>> GetEvent([FromQuery] EventSpecParams eventSpecParams)
-        {
-            var spec = new EventsWithClientsSpecification(eventSpecParams);
-            
-            var eventClient = await _eventRepo.GetEntityWithSpec(spec);
-
-            if (eventClient == null) return NotFound(new ApiResponse(400));
-            
-            var eventDto = _mapper.Map<EventToReturnDto>(eventClient);
-            return Ok(eventDto);
-        }
-        
-        [HttpGet]
-        [Route("evento-cliente/{codePublish}/ingressos")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<TicketToReturnDto>> GetTicketByEventId([FromRoute] TicketSpecParams ticketSpecParams)
-        {
-       
-            var spec = new TicketsWithEventsSpecification(ticketSpecParams);
-            
-            var ticketClient = await _tickerRepo.ListAsync(spec);
-
-            var ticketToReturn = _mapper.Map<IReadOnlyList<TicketToReturnDto>>(ticketClient);
-            return Ok(ticketToReturn);
-        }
-
-
        
     }
 }
