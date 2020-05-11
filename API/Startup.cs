@@ -30,19 +30,27 @@ namespace API {
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services) {
+        public void ConfigureServices(IServiceCollection services)
+        {
 
             services.AddAutoMapper(typeof(MappingProfiles));
-            services.AddControllers ();
-            var dbConn = _config.GetConnectionString ("MySqlConn");
-            
-            services.AddDbContext<ContextApp> (o => o.UseMySql(dbConn, 
-                                                x => x.MigrationsAssembly("Migrations")));
-            
-          
-            
+            services.AddControllers();
+            var dbConn = _config.GetConnectionString("MySqlConn");
+
+            services.AddDbContext<ContextApp>(o => o.UseMySql(dbConn,
+                x => x.MigrationsAssembly("Migrations")));
+
+
+
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("AllowAngularDev", p =>
+                {
+                    p.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +64,9 @@ namespace API {
             app.UseRouting ();
 
             app.UseAuthorization ();
-            app.UserSwaggerDocumentation(); 
+            app.UserSwaggerDocumentation();
+
+            app.UseCors("AllowAngularDev");
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
             });
