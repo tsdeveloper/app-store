@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { IProduct } from './models/product';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -12,11 +13,10 @@ export class AppComponent implements OnInit {
 
   title = 'client';
   products: IProduct[];
+  urlAPI = environment.urlAPI;
 
-  constructor(private http: HttpClient) {
-    this.http.get('https://localhost:5001/api/products').subscribe((res: IPagination) => {
-      this.products = res.data;
-    }, error => console.log(error))
+  constructor() {
+
   }
 
   ngOnInit(): void {
