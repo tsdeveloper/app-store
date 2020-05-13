@@ -20,6 +20,7 @@ namespace Infrastructure.Factory
         private static List<Client> fakerClientList = new List<Client>();
         private static List<Event> fakerEventList = new List<Event>();
         private static List<Ticket> fakerTickerList = new List<Ticket>();
+        private static List<string> listImagesProduct = new List<string>();
 
         private const string URLAPI = @"localhost:5001/api";
         private const string FILE_JSON_PRODUCT_BRANDS = @"../Infrastructure/SeedData/ProductBrands.json";
@@ -28,6 +29,7 @@ namespace Infrastructure.Factory
         private const string FILE_JSON_EVENT = @"../Infrastructure/SeedData/Event.json";
         private const string FILE_JSON_CLIENT = @"../Infrastructure/SeedData/Client.json";
         private const string FILE_JSON_TICKET = @"../Infrastructure/SeedData/Ticket.json";
+        private const string FILE_IMAGES = @"../Infrastructure/SeedData/Images";
 
         public static async Task BuildFactoryAsync(ContextApp context, ILoggerFactory loggerFactory)
         {
@@ -36,15 +38,15 @@ namespace Infrastructure.Factory
                 await GenerateBuildFactoryClient(context,
                     loggerFactory,
                     true);
-                
+
                 await GenerateBuildFactoryEvent(context,
                     loggerFactory,
                     true);
-                
+
                 await GenerateBuildFactoryTicke(context,
                     loggerFactory,
                     true);
-                
+
                 await GenerateBuildFactoryProductBrand(context,
                     loggerFactory,
                     true);
@@ -61,7 +63,9 @@ namespace Infrastructure.Factory
                 logger.LogError(ex.Message);
             }
         }
-        private static async Task GenerateBuildFactoryClient(ContextApp context, ILoggerFactory loggerFactory, bool runBuildFactory = false)
+
+        private static async Task GenerateBuildFactoryClient(ContextApp context, ILoggerFactory loggerFactory,
+            bool runBuildFactory = false)
         {
             Task.Run(() =>
             {
@@ -75,7 +79,7 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_CLIENT);
                             }
-                        
+
                         var clientFaker = new Faker<Client>()
                             .RuleFor(p => p.Id, p => p.Random.Guid())
                             .RuleFor(p => p.Name, p => p.Person.FirstName)
@@ -100,7 +104,9 @@ namespace Infrastructure.Factory
                 }
             }).Wait();
         }
-        private static async Task GenerateBuildFactoryEvent(ContextApp context, ILoggerFactory loggerFactory, bool  runBuildFactory = false)
+
+        private static async Task GenerateBuildFactoryEvent(ContextApp context, ILoggerFactory loggerFactory,
+            bool runBuildFactory = false)
         {
             Task.Run(() =>
             {
@@ -114,13 +120,12 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_EVENT);
                             }
-                        
+
                         var eventFaker = new Faker<Event>()
                             .RuleFor(p => p.Id, p => p.Random.Guid())
                             .RuleFor(p => p.CodePublish, p => p.Random.Guid().ToString().Substring(0, 8))
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .RuleFor(p => p.Description, p => p.Commerce.ProductName())
-                            
                             .Generate(100);
 
                         fakerEventList.AddRange(eventFaker);
@@ -136,9 +141,11 @@ namespace Infrastructure.Factory
                                     continue;
                                 }
                             }
-                            eventClient.PublishUrl = $@"{URLAPI}/eventos/evento-cliente/{eventClient.CodePublish}/ingressos/";
+
+                            eventClient.PublishUrl =
+                                $@"{URLAPI}/eventos/evento-cliente/{eventClient.CodePublish}/ingressos/";
                         }
-                        
+
                         using (var file = File.CreateText(FILE_JSON_EVENT))
                         {
                             var serializer = new JsonSerializer();
@@ -154,7 +161,8 @@ namespace Infrastructure.Factory
             }).Wait();
         }
 
-        private static async Task GenerateBuildFactoryTicke(ContextApp context, ILoggerFactory loggerFactory, bool  runBuildFactory = false)
+        private static async Task GenerateBuildFactoryTicke(ContextApp context, ILoggerFactory loggerFactory,
+            bool runBuildFactory = false)
         {
             Task.Run(() =>
             {
@@ -168,7 +176,7 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_TICKET);
                             }
-                        
+
                         var tickerFaker = new Faker<Ticket>()
                             .RuleFor(p => p.Id, p => p.Random.Guid())
                             .RuleFor(p => p.Description, p => p.Commerce.ProductName())
@@ -178,7 +186,7 @@ namespace Infrastructure.Factory
                             .Generate(4);
 
                         fakerTickerList.AddRange(tickerFaker);
-                        
+
                         foreach (var ticker in fakerTickerList)
                         {
                             foreach (var eventClient in fakerEventList)
@@ -190,10 +198,8 @@ namespace Infrastructure.Factory
                                     break;
                                 }
                             }
-                            
-                            
                         }
-                        
+
                         using (var file = File.CreateText(FILE_JSON_TICKET))
                         {
                             var serializer = new JsonSerializer();
@@ -210,7 +216,6 @@ namespace Infrastructure.Factory
         }
 
 
-
         private static async Task GenerateBuildFactoryProductBrand(ContextApp context,
             ILoggerFactory loggerFactory, bool runBuildFactory = false)
         {
@@ -224,9 +229,9 @@ namespace Infrastructure.Factory
 
                             if (File.Exists(FILE_JSON_PRODUCT_BRANDS))
                             {
-                               File.Delete(FILE_JSON_PRODUCT_BRANDS);
+                                File.Delete(FILE_JSON_PRODUCT_BRANDS);
                             }
-                        
+
                         var productBrand = new Faker<ProductBrand>()
                             .RuleFor(p => p.Id, p => p.Random.Guid())
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
@@ -263,15 +268,15 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_PRODUCT_TYPES);
                             }
-                        
+
                         var productType = new Faker<ProductType>()
                             .RuleFor(p => p.Id, p => p.Random.Guid())
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .Generate(100);
 
                         fakerProductTypeList.AddRange(productType);
-                            
-                                
+
+
                         using (var file = File.CreateText(FILE_JSON_PRODUCT_TYPES))
                         {
                             var serializer = new JsonSerializer();
@@ -298,14 +303,33 @@ namespace Infrastructure.Factory
 
                         if (File.Exists(FILE_JSON_PRODUCT))
                         {
-                           File.Delete(FILE_JSON_PRODUCT);
+                            File.Delete(FILE_JSON_PRODUCT);
                         }
+
+                    
+                    if (Directory.Exists(FILE_IMAGES))
+                    {
+                        var ext = new List<string> { ".jpg", ".png" };
+
+                        var imageFile = Directory.GetFiles(FILE_IMAGES,"*.*",SearchOption.AllDirectories)
+                                        .Where(c => ext.Contains(Path.GetExtension(c).ToLowerInvariant()))
+                                        .Select( c => new
+                                        {
+                                         fileName =     new FileInfo(c).Name          
+                                        }).ToList();
+
+                        imageFile.ForEach(x => listImagesProduct.Add(x.fileName));
+                    }
+
+         
+
+
                     var productList = new Faker<Product>()
                         .RuleFor(p => p.Id, p => p.Random.Guid())
                         .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                         .RuleFor(p => p.Description, p => p.Commerce.Product())
                         .RuleFor(p => p.Price, p => p.Random.Decimal(10, 100))
-                        .RuleFor(p => p.PictureUrl, p => p.Internet.Avatar())
+                        .RuleFor(p => p.PictureUrl, p => p.PickRandom(listImagesProduct) ?? "https://dummyimage.com/300")
                         .Generate(100);
 
                     foreach (var product in productList)
@@ -319,7 +343,7 @@ namespace Infrastructure.Factory
                                 continue;
                             }
                         }
-                        
+
                         foreach (var productType in fakerProductTypeList)
                         {
                             var productExist = productList.Any(x => x.ProductTypeId.Equals(productType.Id));
@@ -330,7 +354,7 @@ namespace Infrastructure.Factory
                             }
                         }
                     }
-                            
+
                     fakerProductList.AddRange(productList);
                     using (var file = File.CreateText(FILE_JSON_PRODUCT))
                     {

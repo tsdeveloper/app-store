@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using Core.Entities;
+using Infrastructure.Data;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Factory
 {
     public class BuildFactorySeed
     {
