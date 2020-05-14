@@ -3,10 +3,8 @@
 
     <div class="col-3">
       <h5 class="text-warning ml-3">Sorts</h5>
-      <select name="" id="" class="custom-select mb-3">
-        <option value="">item-1</option>
-        <option value="">item-2</option>
-        <option value="">item-3</option>
+      <select (change)="onSortSelected($event.target.value)" class="custom-select mb-3">
+        <option *ngFor="let sort of sortOptions" [value]="sort.value">{{sort.name}}</option>
       </select>
 
       <h5 class="text-warning ml-3">Brands</h5>

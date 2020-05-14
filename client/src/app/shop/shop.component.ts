@@ -10,13 +10,17 @@ import { IProductType } from '../models/productType';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-
-
     products: IProduct[];
   productBrands: IProductBrand[];
   productTypes: IProductType[];
   productBrandIdSelected = 0;
   productTypeIdSelected = 0;
+  sortSelected = 'name';
+  sortOptions = [
+    {name: 'Alphabetical', value: 'name'},
+    {name: 'Price: Low to High', value: 'priceAsc'},
+    {name: 'Price: High to Low', value: 'priceDesc'}
+  ];
 
   constructor(private shopService: ShopService) { }
 
@@ -27,7 +31,8 @@ this.getProductTypes();
   }
 
   getProducts() {
-    this.shopService.getProducts(this.productBrandIdSelected, this.productTypeIdSelected).subscribe(res => {
+    this.shopService.getProducts(this.productBrandIdSelected,
+          this.productTypeIdSelected, this.sortSelected).subscribe(res => {
       this.products = res.data;
     }, error => console.log(error));
   }
@@ -56,4 +61,8 @@ this.getProductTypes();
     this.getProducts();
   }
 
+  onSortSelected(sort: string) {
+    this.sortSelected = sort;
+    this.getProducts();
+  }
 }
