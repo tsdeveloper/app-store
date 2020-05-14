@@ -17,6 +17,7 @@ namespace Infrastructure.Factory
         private static List<Ticket> tickets;
         private static List<ProductBrand> brands;
         private static List<ProductType> productTypes;
+        private static List<SortOption> sortOptions;
 
         private const string FILE_JSON_PRODUCT_BRANDS = @"../Infrastructure/SeedData/ProductBrands.json";
         private const string FILE_JSON_PRODUCT_TYPES = @"../Infrastructure/SeedData/ProductTypes.json";
@@ -24,8 +25,9 @@ namespace Infrastructure.Factory
         private const string FILE_JSON_EVENT = @"../Infrastructure/SeedData/Event.json";
         private const string FILE_JSON_CLIENT = @"../Infrastructure/SeedData/Client.json";
         private const string FILE_JSON__TICKET= @"../Infrastructure/SeedData/Ticket.json";
+        private const string FILE_JSON_SORT_OPTION = @"../Infrastructure/SeedData/SortOption.json";
 
-        public static async Task SeedAsync(ContextApp context, ILoggerFactory loggerFactory)
+        public static async Task SeedAsync(AppStoreContext context, ILoggerFactory loggerFactory)
         {
             try
             {
@@ -50,6 +52,10 @@ namespace Infrastructure.Factory
                 await GenerateSeedProduct(context,
                     loggerFactory,
                     true);
+                
+                await GenerateBuildFactorySortOption(context,
+                    loggerFactory,
+                    true);
             }
             catch (Exception ex)
             {
@@ -57,7 +63,7 @@ namespace Infrastructure.Factory
             }
         }
 
-        private static async Task GenerateBuildFactoryClient(ContextApp context, ILoggerFactory loggerFactory, bool runSeed = false)
+        private static async Task GenerateBuildFactoryClient(AppStoreContext context, ILoggerFactory loggerFactory, bool runSeed = false)
         {
             if (runSeed && !context.DbSet<Client>().Any())
             {
@@ -82,7 +88,7 @@ namespace Infrastructure.Factory
             clients = context.DbSet<Client>().ToList();
         }
 
-        private static async Task GenerateBuildFactoryEvent(ContextApp context, ILoggerFactory loggerFactory, bool runSeed = false)
+        private static async Task GenerateBuildFactoryEvent(AppStoreContext context, ILoggerFactory loggerFactory, bool runSeed = false)
         {
             if (runSeed && !context.DbSet<Event>().Any())
             {
@@ -107,7 +113,7 @@ namespace Infrastructure.Factory
             events = context.DbSet<Event>().ToList();
         }
 
-        private static async Task GenerateBuildFactoryTicker(ContextApp context, ILoggerFactory loggerFactory, bool runSeed = false)
+        private static async Task GenerateBuildFactoryTicker(AppStoreContext context, ILoggerFactory loggerFactory, bool runSeed = false)
         {
             if (runSeed && !context.DbSet<Ticket>().Any())
             {
@@ -132,7 +138,7 @@ namespace Infrastructure.Factory
             tickets = context.DbSet<Ticket>().ToList();
         }
 
-        private static async Task GenerateSeedProductBrand(ContextApp context, ILoggerFactory loggerFactory,
+        private static async Task GenerateSeedProductBrand(AppStoreContext context, ILoggerFactory loggerFactory,
             bool runSeed = false)
         {
             if (runSeed && !context.DbSet<ProductBrand>().Any())
@@ -158,7 +164,7 @@ namespace Infrastructure.Factory
             brands = context.DbSet<ProductBrand>().ToList();
         }
 
-        private static async Task GenerateSeedProductType(ContextApp context, ILoggerFactory loggerFactory,
+        private static async Task GenerateSeedProductType(AppStoreContext context, ILoggerFactory loggerFactory,
             bool runSeed = false)
         {
             if (runSeed && !context.DbSet<ProductType>().Any())
@@ -183,7 +189,7 @@ namespace Infrastructure.Factory
             productTypes = context.DbSet<ProductType>().ToList();
         }
 
-        private static async Task GenerateSeedProduct(ContextApp context, ILoggerFactory loggerFactory,
+        private static async Task GenerateSeedProduct(AppStoreContext context, ILoggerFactory loggerFactory,
             bool runSeed = false)
         {
             if (runSeed && !context.DbSet<Product>().Any())
@@ -195,6 +201,29 @@ namespace Infrastructure.Factory
                     var products = JsonConvert.DeserializeObject<List<Product>>(productsData);
 
                     context.DbSet<Product>().AddRange(products);
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    var logger = loggerFactory.CreateLogger<BuildFactorySeed>();
+                    logger.LogError(ex, "An error occured during seed Product db");
+                    ;
+                }
+            }
+        }
+        
+        private static async Task GenerateBuildFactorySortOption(AppStoreContext context, ILoggerFactory loggerFactory,
+            bool runSeed = false)
+        {
+            if (runSeed && !context.DbSet<SortOption>().Any())
+            {
+                try
+                {
+                    var sortOptionData = File.ReadAllText(FILE_JSON_SORT_OPTION);
+
+                    var sortOptions = JsonConvert.DeserializeObject<List<SortOption>>(sortOptionData);
+
+                    context.DbSet<SortOption>().AddRange(sortOptions);
                     await context.SaveChangesAsync();
                 }
                 catch (Exception ex)

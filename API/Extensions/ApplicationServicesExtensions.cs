@@ -2,6 +2,7 @@
 using API.Errors;
 using Core.Interfaces;
 using Infrastructure.Repository;
+using Infrastructure.Repository.Products;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 

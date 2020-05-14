@@ -51,6 +51,21 @@ namespace Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SortOption",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    IsCanceled = table.Column<bool>(nullable: false, defaultValue: false),
+                    Name = table.Column<string>(maxLength: 30, nullable: false),
+                    Description = table.Column<string>(maxLength: 200, nullable: true),
+                    Value = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SortOption", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Event",
                 columns: table => new
                 {
@@ -151,6 +166,9 @@ namespace Migrations.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "SortOption");
 
             migrationBuilder.DropTable(
                 name: "Ticket");

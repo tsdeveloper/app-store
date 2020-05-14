@@ -8,12 +8,12 @@ using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Repository {
+namespace Infrastructure.Repository.Products {
     public class ProductRepository : IProductRepository {
-        private readonly ContextApp _context;
+        private readonly AppStoreContext _context;
         protected DbSet<Product> DbSet;
 
-        public ProductRepository (ContextApp context) {
+        public ProductRepository (AppStoreContext context) {
             _context = context;
             DbSet = _context.Set<Product> ();
 

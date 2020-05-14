@@ -21,6 +21,7 @@ namespace Infrastructure.Factory
         private static List<Event> fakerEventList = new List<Event>();
         private static List<Ticket> fakerTickerList = new List<Ticket>();
         private static List<string> listImagesProduct = new List<string>();
+        private static List<SortOption> fakerSortOptionList;
 
         private const string URLAPI = @"localhost:5001/api";
         private const string FILE_JSON_PRODUCT_BRANDS = @"../Infrastructure/SeedData/ProductBrands.json";
@@ -29,9 +30,10 @@ namespace Infrastructure.Factory
         private const string FILE_JSON_EVENT = @"../Infrastructure/SeedData/Event.json";
         private const string FILE_JSON_CLIENT = @"../Infrastructure/SeedData/Client.json";
         private const string FILE_JSON_TICKET = @"../Infrastructure/SeedData/Ticket.json";
+        private const string FILE_JSON_SORT_OPTION = @"../Infrastructure/SeedData/SortOption.json";
         private const string FILE_IMAGES = @"../Infrastructure/SeedData/Images";
 
-        public static async Task BuildFactoryAsync(ContextApp context, ILoggerFactory loggerFactory)
+        public static async Task BuildFactoryAsync(AppStoreContext context, ILoggerFactory loggerFactory)
         {
             try
             {
@@ -43,7 +45,7 @@ namespace Infrastructure.Factory
                     loggerFactory,
                     true);
 
-                await GenerateBuildFactoryTicke(context,
+                await GenerateBuildFactoryTicker(context,
                     loggerFactory,
                     true);
 
@@ -56,6 +58,10 @@ namespace Infrastructure.Factory
                 await GenerateBuildFactoryProduct(context,
                     loggerFactory,
                     true);
+                
+                await GenerateBuildFactorySortOption(context,
+                    loggerFactory,
+                    true);
             }
             catch (System.Exception ex)
             {
@@ -64,7 +70,7 @@ namespace Infrastructure.Factory
             }
         }
 
-        private static async Task GenerateBuildFactoryClient(ContextApp context, ILoggerFactory loggerFactory,
+        private static async Task GenerateBuildFactoryClient(AppStoreContext context, ILoggerFactory loggerFactory,
             bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -105,7 +111,7 @@ namespace Infrastructure.Factory
             }).Wait();
         }
 
-        private static async Task GenerateBuildFactoryEvent(ContextApp context, ILoggerFactory loggerFactory,
+        private static async Task GenerateBuildFactoryEvent(AppStoreContext context, ILoggerFactory loggerFactory,
             bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -161,7 +167,7 @@ namespace Infrastructure.Factory
             }).Wait();
         }
 
-        private static async Task GenerateBuildFactoryTicke(ContextApp context, ILoggerFactory loggerFactory,
+        private static async Task GenerateBuildFactoryTicker(AppStoreContext context, ILoggerFactory loggerFactory,
             bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -216,7 +222,7 @@ namespace Infrastructure.Factory
         }
 
 
-        private static async Task GenerateBuildFactoryProductBrand(ContextApp context,
+        private static async Task GenerateBuildFactoryProductBrand(AppStoreContext context,
             ILoggerFactory loggerFactory, bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -253,7 +259,7 @@ namespace Infrastructure.Factory
             }).Wait();
         }
 
-        private static async Task GenerateBuildFactoryProductType(ContextApp context,
+        private static async Task GenerateBuildFactoryProductType(AppStoreContext context,
             ILoggerFactory loggerFactory, bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -292,7 +298,7 @@ namespace Infrastructure.Factory
             }).Wait();
         }
 
-        private static async Task GenerateBuildFactoryProduct(ContextApp context,
+        private static async Task GenerateBuildFactoryProduct(AppStoreContext context,
             ILoggerFactory loggerFactory, bool runBuildFactory = false)
         {
             Task.Run(() =>
@@ -320,9 +326,6 @@ namespace Infrastructure.Factory
 
                         imageFile.ForEach(x => listImagesProduct.Add(x.fileName));
                     }
-
-         
-
 
                     var productList = new Faker<Product>()
                         .RuleFor(p => p.Id, p => p.Random.Guid())
@@ -366,6 +369,46 @@ namespace Infrastructure.Factory
                 {
                     var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
                     logger.LogError(ex.Message);
+                }
+            }).Wait();
+        }
+        
+        
+        private static async Task GenerateBuildFactorySortOption(AppStoreContext context, ILoggerFactory loggerFactory, bool runBuildFactory = false)
+        {
+            Task.Run(() =>
+            {
+                if (runBuildFactory)
+                {
+                    try
+                    {
+                        if (!context.DbSet<SortOption>().Any())
+
+                            if (File.Exists(FILE_JSON_SORT_OPTION))
+                            {
+                                File.Delete(FILE_JSON_SORT_OPTION);
+                            }
+
+                        fakerSortOptionList = new List<SortOption>
+                        {
+                            new SortOption {Id = Guid.NewGuid(), Name = "Alphabetical", Description = "Order by por name", Value = "name"},
+                            new SortOption {Id = Guid.NewGuid(), Name = "Price: Low to High", Description = "Price: Low to High", Value = "priceAsc"},
+                            new SortOption {Id = Guid.NewGuid(), Name = "Price: High to Low", Description = "Price: Low to High", Value = "priceDesc"},
+                            
+                        };
+
+
+                        using (var file = File.CreateText(FILE_JSON_SORT_OPTION))
+                        {
+                            var serializer = new JsonSerializer();
+                            serializer.Serialize(file, fakerSortOptionList);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        var logger = loggerFactory.CreateLogger<BuildFactoryFake>();
+                        logger.LogError(ex.Message);
+                    }
                 }
             }).Wait();
         }

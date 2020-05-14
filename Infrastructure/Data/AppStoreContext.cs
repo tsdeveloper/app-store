@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class ContextApp : DbContext
+    public class AppStoreContext : DbContext
     {
-        public ContextApp(DbContextOptions options) : base(options)
+        public AppStoreContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -59,7 +59,7 @@ namespace Infrastructure.Data
     }
     
     public static class ContextAppExtensions {
-        public static DbSet<TEntityType> DbSet<TEntityType> (this ContextApp context)
+        public static DbSet<TEntityType> DbSet<TEntityType> (this AppStoreContext context)
             where TEntityType : class {
             return context.Set<TEntityType> ();
         }

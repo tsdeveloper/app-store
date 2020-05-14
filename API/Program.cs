@@ -26,7 +26,7 @@ namespace API
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
-                    var context = services.GetRequiredService<ContextApp>();
+                    var context = services.GetRequiredService<AppStoreContext>();
                     await context.Database.MigrateAsync();
                     await BuildFactoryFake.BuildFactoryAsync(context, loggerFactory);
                     await BuildFactorySeed.SeedAsync(context, loggerFactory);

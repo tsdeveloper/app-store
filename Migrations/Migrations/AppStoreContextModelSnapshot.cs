@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Migrations.Migrations
 {
-    [DbContext(typeof(ContextApp))]
-    partial class ContextAppModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppStoreContext))]
+    partial class AppStoreContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -166,6 +166,36 @@ namespace Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductType");
+                });
+
+            modelBuilder.Entity("Core.Entities.SortOption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("IsCanceled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SortOption");
                 });
 
             modelBuilder.Entity("Core.Entities.Ticket", b =>
