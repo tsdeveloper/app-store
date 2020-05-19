@@ -11,7 +11,7 @@
       <nav class="overflow-auto h-max ">
         <ul class="list-group my-3">
           <li class="list-group-item mr-2" *ngFor="let productBrand of productBrands"
-            [class.active]="productBrand.id === this.productBrandIdSelected" [value]="productBrand.id"
+            [class.active]="productBrand.id === this.shopParams.productBrandId" [value]="productBrand.id"
             (click)="onProductBrandSelect(productBrand.id)">{{productBrand.name}}</li>
 
         </ul>
@@ -22,16 +22,12 @@
       <nav class="overflow-auto h-max ">
         <ul class="list-group my-3">
           <li class="list-group-item  mr-2" *ngFor="let productType of productTypes"
-            [class.active]="productType.id === this.productTypeIdSelected"
+            [class.active]="productType.id === this.shopParams.productTypeId"
             (click)="onProductTypeSelect(productType.id)">{{productType.name}}</li>
 
         </ul>
       </nav>
-      <h5 class="text-warning ml-3">Types</h5>
-      <ul class="list-group my-3">
-        <li class="list-group-item" *ngFor="let productType of productTypes">{{productType.name}}</li>
 
-      </ul>
     </div>
     <section class="col-9">
       <div class="d-flex justify-content-between aling-center-pb-2">
@@ -40,17 +36,27 @@
         </header>
         <div class="form-inline mt-2">
           <input type="text" class="form-control mr-2" style="width:300px" placeholder="Search">
-          <button class="btn btn-outline-primary my-2">Search</button>
-          <button class="btn btn-outline-primary ml-2 my-2">Reset</button>
+          <button (click)="onSearchFilter()" class="btn btn-outline-primary my-2">Search</button>
+          <button (click)="onClearFilter()" class="btn btn-outline-primary ml-2 my-2">Reset</button>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-4 mb-4" *ngFor="let item of products">
+        <div class="col-4 mb-4" *ngFor="let item of products">
           <app-product-item [product]="item"></app-product-item>
         </div>
-
       </div>
+      <div class="d-flex justify-content-center">
+        <pagination
+        [boundaryLinks]="true"
+        [totalItems]="77"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;">
+      </pagination>
+      </div>
+
     </section>
   </div>
 </div>

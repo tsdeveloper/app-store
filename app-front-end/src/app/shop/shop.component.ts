@@ -1,7 +1,8 @@
+import { ShopParams } from './../models/shopParams';
 import { IProductBrand } from './../models/productBrand';
 import { ShopService } from './shop.service';
 import { IProduct } from './../models/product';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { IProductType } from '../models/productType';
 
 @Component({
@@ -13,9 +14,8 @@ export class ShopComponent implements OnInit {
     products: IProduct[];
   productBrands: IProductBrand[];
   productTypes: IProductType[];
-  productBrandIdSelected = 0;
-  productTypeIdSelected = 0;
-  sortSelected = 'name';
+ @Input() productNameFilter = '';
+  shopParams =  new ShopParams();
   sortOptions = [
     {name: 'Alphabetical', value: 'name'},
     {name: 'Price: Low to High', value: 'priceAsc'},
@@ -31,8 +31,7 @@ this.getProductTypes();
   }
 
   getProducts() {
-    this.shopService.getProducts(this.productBrandIdSelected,
-          this.productTypeIdSelected, this.sortSelected).subscribe(res => {
+    this.shopService.getProducts(this.shopParams).subscribe(res => {
       this.products = res.data;
     }, error => console.log(error));
   }
@@ -50,19 +49,28 @@ this.getProductTypes();
   }
 
   onProductBrandSelect(productBrandId: number) {
-    this.productBrandIdSelected = productBrandId;
+    this.shopParams.productBrandId = productBrandId;
 
     this.getProducts();
   }
 
   onProductTypeSelect(productTypeId: number) {
-    this.productTypeIdSelected = productTypeId;
+    this.shopParams.productTypeId = productTypeId;
 
     this.getProducts();
   }
 
   onSortSelected(sort: string) {
-    this.sortSelected = sort;
+    this.shopParams.sort = sort;
     this.getProducts();
+  }
+
+  onClearFilter() {
+    this.shopParams = this.shopParams.resetParams();
+    this.getProducts();
+  }
+
+  onSearchFilter() {
+   this.getProducts();
   }
 }
