@@ -39,7 +39,8 @@ namespace Infrastructure.Repository
             return null;
         }
 
-        public async Task<IReadOnlyCollection<T>> GetTAllAsync(int page = 1, int pageTotal = 10, Expression<Func<T, bool>> filter = null, Expression<Func<IQueryable<T>, IOrderedQueryable<T>>> orderFilter = null,
+        public async Task<IReadOnlyCollection<T>> GetTAllAsync(int page = 1, int pageTotal = 10, Expression<Func<T, bool>> filter = null,
+            Expression<Func<IQueryable<T>, IOrderedQueryable<T>>> orderFilter = null,
             params Expression<Func<T, object>>[] includes)
         {
              

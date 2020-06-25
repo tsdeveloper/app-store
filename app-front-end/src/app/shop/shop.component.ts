@@ -34,7 +34,7 @@ this.getProductTypes();
   getProducts() {
     this.shopService.getProducts(this.shopParams).subscribe(res => {
       this.products = res.data;
-      this.shopParams.pageIndex = res.pageIndex;
+      this.shopParams.pageNumber = res.pageIndex;
       this.shopParams.pageSize = res.pageSize;
       this.totalCount = res.count;
     }, error => console.log(error));
@@ -79,7 +79,7 @@ this.getProductTypes();
   }
 
   onPageChanged(event: any) {
-    this.shopParams.pageIndex = event.page;
+    this.shopParams.pageNumber = event.page;
     this.getProducts();
    }
 }
