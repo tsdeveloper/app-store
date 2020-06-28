@@ -11,8 +11,8 @@
       <nav class="overflow-auto h-max ">
         <ul class="list-group my-3">
           <li class="list-group-item mr-2" *ngFor="let productBrand of productBrands"
-            [class.active]="productBrand.id === this.shopParams.productBrandId" [value]="productBrand.id"
-            (click)="onProductBrandSelect(productBrand.id)">{{productBrand.name}}</li>
+              [class.active]="productBrand.id === this.shopParams.productBrandId" [value]="productBrand.id"
+              (click)="onProductBrandSelect(productBrand.id)">{{productBrand.name}}</li>
 
         </ul>
 
@@ -22,8 +22,8 @@
       <nav class="overflow-auto h-max ">
         <ul class="list-group my-3">
           <li class="list-group-item  mr-2" *ngFor="let productType of productTypes"
-            [class.active]="productType.id === this.shopParams.productTypeId"
-            (click)="onProductTypeSelect(productType.id)">{{productType.name}}</li>
+              [class.active]="productType.id === this.shopParams.productTypeId"
+              (click)="onProductTypeSelect(productType.id)">{{productType.name}}</li>
 
         </ul>
       </nav>
@@ -31,17 +31,12 @@
     </div>
     <section class="col-9">
       <div class="d-flex justify-content-between aling-center-pb-2">
-        <header>
-
-          <span *ngIf="totalCount && totalCount > 0">Showing <strong>{{(this.shopParams.pageNumber-1) * this.shopParams.pageSize+1}} -
-            {{this.shopParams.pageNumber*this.shopParams.pageSize
-            > this.totalCount ? this.totalCount : this.shopParams.pageNumber* this.shopParams.pageSize
-            }}</strong> of <strong>{{this.totalCount}}</strong> Results</span>
-          <span *ngIf="totalCount == 0">
-            There are <strong>0</strong> results for this filter
-          </span>
-
-        </header>
+        <app-paging-header
+        [totalCount]="totalCount"
+        [pageSize]="this.shopParams.pageSize"
+        [pageNumber]="this.shopParams.pageNumber"
+        >
+        </app-paging-header>
         <div class="form-inline mt-2">
           <input type="text" class="form-control mr-2" style="width:300px" placeholder="Search">
           <button (click)="onSearchFilter()" class="btn btn-outline-primary my-2">Search</button>
@@ -55,17 +50,13 @@
         </div>
       </div>
       <div class="d-flex justify-content-center">
-        <pagination
-        [boundaryLinks]="true"
-        [maxSize]="this.shopParams.pageSize"
-        [totalItems]="this.totalCount"
-        (pageChanged)="onPageChanged($event)"
-        [itemsPerPage]="this.shopParams.pageSize"
-        previousText="&lsaquo;"
-        nextText="&rsaquo;"
-        firstText="&laquo;"
-        lastText="&raquo;">
-      </pagination>
+    <app-pager
+    [pageSize]="shopParams.pageSize"
+    [totalCount]="totalCount"
+    (pageChanged)="onPageChanged($event)"
+    >
+
+    </app-pager>
       </div>
 
     </section>
