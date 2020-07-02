@@ -1,9 +1,9 @@
-import { ShopParams } from './../models/shopParams';
-import { IProductBrand } from './../models/productBrand';
-import { ShopService } from './shop.service';
-import { IProduct } from './../models/product';
-import { Component, OnInit, Input } from '@angular/core';
-import { IProductType } from '../models/productType';
+import {ShopParams} from './../models/shopParams';
+import {IProductBrand} from './../models/productBrand';
+import {ShopService} from './shop.service';
+import {IProduct} from './../models/product';
+import {Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
+import {IProductType} from '../models/productType';
 
 @Component({
   selector: 'app-shop',
@@ -11,24 +11,26 @@ import { IProductType } from '../models/productType';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-    products: IProduct[];
+  @ViewChild('search', {static: true}) searchTerm: ElementRef;
+  products: IProduct[];
   productBrands: IProductBrand[];
   productTypes: IProductType[];
   totalCount: number;
- @Input() productNameFilter = '';
-  shopParams =  new ShopParams();
+  @Input() productNameFilter = '';
+  shopParams = new ShopParams();
   sortOptions = [
     {name: 'Alphabetical', value: 'name'},
     {name: 'Price: Low to High', value: 'priceAsc'},
     {name: 'Price: High to Low', value: 'priceDesc'}
   ];
 
-  constructor(private shopService: ShopService) { }
+  constructor(private shopService: ShopService) {
+  }
 
   ngOnInit(): void {
-this.getProducts();
-this.getProductBrands();
-this.getProductTypes();
+    this.getProducts();
+    this.getProductBrands();
+    this.getProductTypes();
   }
 
   getProducts() {
@@ -69,17 +71,21 @@ this.getProductTypes();
     this.getProducts();
   }
 
-  onClearFilter() {
+  onPageChanged(event: any) {
+    this.shopParams.pageNumber = event;
+    this.getProducts();
+  }
+
+  onSearch() {
+    this.shopParams.search = this.searchTerm.nativeElement.value;
+    this.shopParams.pageNumber = 1;
+    this.getProducts();
+  }
+
+  onReset() {
+    this.searchTerm.nativeElement.value = '';
     this.shopParams = this.shopParams.resetParams();
     this.getProducts();
   }
 
-  onSearchFilter() {
-   this.getProducts();
-  }
-
-  onPageChanged(event: any) {
-    this.shopParams.pageNumber = event;
-    this.getProducts();
-   }
 }
