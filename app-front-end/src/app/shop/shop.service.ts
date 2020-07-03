@@ -6,6 +6,7 @@ import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { IProductBrand } from '../models/productBrand';
 import {  map, delay } from 'rxjs/operators';
+import {IProduct} from "../models/product";
 @Injectable({
   providedIn: 'root'
 })
@@ -45,6 +46,9 @@ export class ShopService {
 
   }
 
+  getProduct(id: string) {
+    return this.http.get<IProduct>(`${this.baseUrl}/products/${id}`);
+  }
   getProductBrands() {
     return this.http.get<IProductBrand[]>(`${this.baseUrl}/products/brands`);
   }

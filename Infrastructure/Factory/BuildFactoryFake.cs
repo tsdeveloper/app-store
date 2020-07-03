@@ -58,7 +58,7 @@ namespace Infrastructure.Factory
                 await GenerateBuildFactoryProduct(context,
                     loggerFactory,
                     true);
-                
+
                 await GenerateBuildFactorySortOption(context,
                     loggerFactory,
                     true);
@@ -86,8 +86,9 @@ namespace Infrastructure.Factory
                                 File.Delete(FILE_JSON_CLIENT);
                             }
 
+                        var clientIds= 1;
                         var clientFaker = new Faker<Client>()
-                            .RuleFor(p => p.Id, p => p.Random.Guid())
+                            .RuleFor(p => p.Id, p => clientIds++)
                             .RuleFor(p => p.Name, p => p.Person.FirstName)
                             .RuleFor(p => p.CpfCnpj, p => p.Person.Cpf(false))
                             .RuleFor(p => p.Address, p => p.Person.Address.Street)
@@ -127,8 +128,9 @@ namespace Infrastructure.Factory
                                 File.Delete(FILE_JSON_EVENT);
                             }
 
+                        var eventIds= 1;
                         var eventFaker = new Faker<Event>()
-                            .RuleFor(p => p.Id, p => p.Random.Guid())
+                            .RuleFor(p => p.Id, p => eventIds++)
                             .RuleFor(p => p.CodePublish, p => p.Random.Guid().ToString().Substring(0, 8))
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .RuleFor(p => p.Description, p => p.Commerce.ProductName())
@@ -183,8 +185,9 @@ namespace Infrastructure.Factory
                                 File.Delete(FILE_JSON_TICKET);
                             }
 
+                        var tickerIds= 1;
                         var tickerFaker = new Faker<Ticket>()
-                            .RuleFor(p => p.Id, p => p.Random.Guid())
+                            .RuleFor(p => p.Id, p => tickerIds++)
                             .RuleFor(p => p.Description, p => p.Commerce.ProductName())
                             .RuleFor(p => p.NameDisplayUrl, p => p.Commerce.ProductName())
                             .RuleFor(p => p.Quantity, p => p.Random.Number(1, 10))
@@ -238,8 +241,9 @@ namespace Infrastructure.Factory
                                 File.Delete(FILE_JSON_PRODUCT_BRANDS);
                             }
 
+                        var productBrandIds= 1;
                         var productBrand = new Faker<ProductBrand>()
-                            .RuleFor(p => p.Id, p => p.Random.Guid())
+                            .RuleFor(p => p.Id, p => productBrandIds++)
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .Generate(100);
 
@@ -275,8 +279,9 @@ namespace Infrastructure.Factory
                                 File.Delete(FILE_JSON_PRODUCT_TYPES);
                             }
 
+                        var productTypeIds= 1;
                         var productType = new Faker<ProductType>()
-                            .RuleFor(p => p.Id, p => p.Random.Guid())
+                            .RuleFor(p => p.Id, p => productTypeIds++)
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .Generate(100);
 
@@ -312,27 +317,29 @@ namespace Infrastructure.Factory
                             File.Delete(FILE_JSON_PRODUCT);
                         }
 
-                    
+
                     if (Directory.Exists(FILE_IMAGES))
                     {
-                        var ext = new List<string> { ".jpg", ".png" };
+                        var ext = new List<string> {".jpg", ".png"};
 
-                        var imageFile = Directory.GetFiles(FILE_IMAGES,"*.*",SearchOption.AllDirectories)
-                                        .Where(c => ext.Contains(Path.GetExtension(c).ToLowerInvariant()))
-                                        .Select( c => new
-                                        {
-                                         fileName =     new FileInfo(c).Name          
-                                        }).ToList();
+                        var imageFile = Directory.GetFiles(FILE_IMAGES, "*.*", SearchOption.AllDirectories)
+                            .Where(c => ext.Contains(Path.GetExtension(c).ToLowerInvariant()))
+                            .Select(c => new
+                            {
+                                fileName = new FileInfo(c).Name
+                            }).ToList();
 
                         imageFile.ForEach(x => listImagesProduct.Add(x.fileName));
                     }
 
+                    var productIds= 1;
                     var productList = new Faker<Product>()
-                        .RuleFor(p => p.Id, p => p.Random.Guid())
+                        .RuleFor(p => p.Id, p => productIds++)
                         .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                         .RuleFor(p => p.Description, p => p.Commerce.Product())
                         .RuleFor(p => p.Price, p => p.Random.Decimal(10, 100))
-                        .RuleFor(p => p.PictureUrl, p => p.PickRandom(listImagesProduct) ?? "https://dummyimage.com/300")
+                        .RuleFor(p => p.PictureUrl,
+                            p => p.PickRandom(listImagesProduct) ?? "https://dummyimage.com/300")
                         .Generate(100);
 
                     foreach (var product in productList)
@@ -372,9 +379,10 @@ namespace Infrastructure.Factory
                 }
             }).Wait();
         }
-        
-        
-        private static async Task GenerateBuildFactorySortOption(AppStoreContext context, ILoggerFactory loggerFactory, bool runBuildFactory = false)
+
+
+        private static async Task GenerateBuildFactorySortOption(AppStoreContext context, ILoggerFactory loggerFactory,
+            bool runBuildFactory = false)
         {
             Task.Run(() =>
             {
@@ -389,12 +397,24 @@ namespace Infrastructure.Factory
                                 File.Delete(FILE_JSON_SORT_OPTION);
                             }
 
+                        var indexSortOption = 1;
                         fakerSortOptionList = new List<SortOption>
                         {
-                            new SortOption {Id = Guid.NewGuid(), Name = "Alphabetical", Description = "Order by por name", Value = "name"},
-                            new SortOption {Id = Guid.NewGuid(), Name = "Price: Low to High", Description = "Price: Low to High", Value = "priceAsc"},
-                            new SortOption {Id = Guid.NewGuid(), Name = "Price: High to Low", Description = "Price: Low to High", Value = "priceDesc"},
-                            
+                            new SortOption
+                            {
+                                Id = indexSortOption++, Name = "Alphabetical", Description = "Order by por name",
+                                Value = "name"
+                            },
+                            new SortOption
+                            {
+                                Id = indexSortOption++, Name = "Price: Low to High", Description = "Price: Low to High",
+                                Value = "priceAsc"
+                            },
+                            new SortOption
+                            {
+                                Id = indexSortOption, Name = "Price: High to Low", Description = "Price: Low to High",
+                                Value = "priceDesc"
+                            },
                         };
 
 
