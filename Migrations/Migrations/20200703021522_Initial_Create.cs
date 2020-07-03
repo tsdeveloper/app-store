@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Migrations.Migrations
@@ -11,7 +11,8 @@ namespace Migrations.Migrations
                 name: "Client",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsCanceled = table.Column<bool>(nullable: false, defaultValue: false),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     CpfCnpj = table.Column<string>(maxLength: 200, nullable: true),
@@ -28,7 +29,8 @@ namespace Migrations.Migrations
                 name: "ProductBrand",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsCanceled = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -41,7 +43,8 @@ namespace Migrations.Migrations
                 name: "ProductType",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsCanceled = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -54,7 +57,8 @@ namespace Migrations.Migrations
                 name: "SortOption",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsCanceled = table.Column<bool>(nullable: false, defaultValue: false),
                     Name = table.Column<string>(maxLength: 30, nullable: false),
                     Description = table.Column<string>(maxLength: 200, nullable: true),
@@ -69,13 +73,14 @@ namespace Migrations.Migrations
                 name: "Event",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsCanceled = table.Column<bool>(nullable: false, defaultValue: false),
                     CodePublish = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Description = table.Column<string>(maxLength: 200, nullable: true),
                     PublishUrl = table.Column<string>(maxLength: 250, nullable: true),
-                    ClientId = table.Column<Guid>(nullable: false)
+                    ClientId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,14 +97,16 @@ namespace Migrations.Migrations
                 name: "Product",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsCanceled = table.Column<bool>(nullable: false, defaultValue: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
+                    DisplaySite = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 180, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PictureUrl = table.Column<string>(nullable: false),
-                    ProductTypeId = table.Column<Guid>(nullable: false),
-                    ProductBrandId = table.Column<Guid>(nullable: false)
+                    ProductTypeId = table.Column<int>(nullable: false),
+                    ProductBrandId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,13 +129,14 @@ namespace Migrations.Migrations
                 name: "Ticket",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsCanceled = table.Column<bool>(nullable: false, defaultValue: false),
                     Description = table.Column<string>(maxLength: 200, nullable: false),
                     NameDisplayUrl = table.Column<string>(maxLength: 200, nullable: false),
                     Quantity = table.Column<int>(maxLength: 250, nullable: false),
                     Price = table.Column<decimal>(maxLength: 200, nullable: false),
-                    EventId = table.Column<Guid>(nullable: false)
+                    EventId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -9,6 +9,7 @@ namespace Core.Specification.Products
     {
         public ProductsWithTypesAndBransSpecification(ProductSpecParams productParams)
             : base(x =>
+                (productParams.Id == 0  || x.Id.Equals(productParams.Id)) &&
                 (string.IsNullOrWhiteSpace(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)
                                                                  || x.Name.ToLower().StartsWith(productParams.Search) ||
                                                                  x.Name.ToLower().EndsWith(productParams.Search) ||

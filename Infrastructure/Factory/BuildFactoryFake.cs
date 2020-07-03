@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bogus;
 using Bogus.Extensions.Brazil;
 using Core.Entities;
+using Helpers.Extension.String;
 using Infrastructure.Data;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -85,10 +86,10 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_CLIENT);
                             }
-
+                        Randomizer.Seed = new Random(4675312);
                         var clientIds= 1;
                         var clientFaker = new Faker<Client>()
-                            .RuleFor(p => p.Id, p => clientIds++)
+                            .RuleFor(p => p.Id, p => p.Random.Int(1))
                             .RuleFor(p => p.Name, p => p.Person.FirstName)
                             .RuleFor(p => p.CpfCnpj, p => p.Person.Cpf(false))
                             .RuleFor(p => p.Address, p => p.Person.Address.Street)
@@ -127,10 +128,10 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_EVENT);
                             }
-
+                        Randomizer.Seed = new Random(5675306);
                         var eventIds= 1;
                         var eventFaker = new Faker<Event>()
-                            .RuleFor(p => p.Id, p => eventIds++)
+                            .RuleFor(p => p.Id, p => p.Random.Int(1))
                             .RuleFor(p => p.CodePublish, p => p.Random.Guid().ToString().Substring(0, 8))
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .RuleFor(p => p.Description, p => p.Commerce.ProductName())
@@ -184,10 +185,10 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_TICKET);
                             }
-
+                        Randomizer.Seed = new Random(1675309);
                         var tickerIds= 1;
                         var tickerFaker = new Faker<Ticket>()
-                            .RuleFor(p => p.Id, p => tickerIds++)
+                            .RuleFor(p => p.Id, p => p.Random.Int(1))
                             .RuleFor(p => p.Description, p => p.Commerce.ProductName())
                             .RuleFor(p => p.NameDisplayUrl, p => p.Commerce.ProductName())
                             .RuleFor(p => p.Quantity, p => p.Random.Number(1, 10))
@@ -240,10 +241,10 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_PRODUCT_BRANDS);
                             }
-
+                        Randomizer.Seed = new Random(2675309);
                         var productBrandIds= 1;
                         var productBrand = new Faker<ProductBrand>()
-                            .RuleFor(p => p.Id, p => productBrandIds++)
+                            .RuleFor(p => p.Id, p => p.Random.Int(1))
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .Generate(100);
 
@@ -278,10 +279,10 @@ namespace Infrastructure.Factory
                             {
                                 File.Delete(FILE_JSON_PRODUCT_TYPES);
                             }
-
+                        Randomizer.Seed = new Random(3675309);
                         var productTypeIds= 1;
                         var productType = new Faker<ProductType>()
-                            .RuleFor(p => p.Id, p => productTypeIds++)
+                            .RuleFor(p => p.Id, p => p.Random.Int(1))
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .Generate(100);
 
@@ -331,10 +332,10 @@ namespace Infrastructure.Factory
 
                         imageFile.ForEach(x => listImagesProduct.Add(x.fileName));
                     }
-
+                    Randomizer.Seed = new Random(675309);
                     var productIds= 1;
                     var productList = new Faker<Product>()
-                        .RuleFor(p => p.Id, p => productIds++)
+                        .RuleFor(p => p.Id, p => p.Random.Int(1))
                         .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                         .RuleFor(p => p.Description, p => p.Commerce.Product())
                         .RuleFor(p => p.Price, p => p.Random.Decimal(10, 100))
@@ -344,6 +345,7 @@ namespace Infrastructure.Factory
 
                     foreach (var product in productList)
                     {
+                        product.DisplaySite = product.Name.ConvertNameConventionUrlWeb();
                         foreach (var productBrand in fakerProductBrandList)
                         {
                             var productExist = productList.Any(x => x.ProductBrandId.Equals(productBrand.Id));

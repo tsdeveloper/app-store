@@ -38,6 +38,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Route("list-all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
             [FromQuery] ProductSpecParams productParams)
         {
@@ -52,12 +55,13 @@ namespace API.Controllers
         return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, productParams.PageSize, totalItems, data));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("search-id")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ProductToReturnDto>> GetProduct([FromQuery] ProductSpecParams productParams)
         {
-            var spec = new ProductsWithTypesAndBransSpecification(productParams);
+            var spec = new ProductsByIdWithTypesAndBransSpecification(productParams);
             
             var product = await _productRepo.GetEntityWithSpec(spec);
 
