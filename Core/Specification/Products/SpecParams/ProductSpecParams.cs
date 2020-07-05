@@ -6,8 +6,9 @@ namespace Core.Specification.Products.SpecParams
     public class ProductSpecParams : BaseSpecParams
     {
         
-        public Guid? BrandId { get; set; }
-        public Guid? TypeId { get; set; }
+        
+        public int? BrandId { get; set; }
+        public int? TypeId { get; set; }
       
     }
 }
