@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   title = 'client';
   products: IProduct[];
-  urlAPI = environment.urlAPI;
+  urlAPI = environment.apiUrl;
 
   constructor() {
 

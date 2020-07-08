@@ -11,7 +11,7 @@ import {IProduct} from "../models/product";
   providedIn: 'root'
 })
 export class ShopService {
-  baseUrl = environment.urlAPI;
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient ) {}
 
