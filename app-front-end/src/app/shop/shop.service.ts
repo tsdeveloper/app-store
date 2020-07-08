@@ -55,7 +55,7 @@ export class ShopService {
 
   getProduct(shopParams: ShopParams) {
     const params = this.setShopParams(shopParams);
-    return this.http.get<IProduct>(`${this.baseUrl}/products/search-id`, {observe: 'response', params})
+    return this.http.get<IProduct>(`${this.baseUrl}/products/product-detail`, {observe: 'response', params})
       .pipe(
         map(res => {
           return res.body;

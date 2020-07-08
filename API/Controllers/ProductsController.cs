@@ -56,7 +56,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("search-id")]
+        [Route("product-detail")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ProductToReturnDto>> GetProduct([FromQuery] ProductSpecParams productParams)

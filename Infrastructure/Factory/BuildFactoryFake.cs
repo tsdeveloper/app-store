@@ -312,6 +312,7 @@ namespace Infrastructure.Factory
                 try
                 {
                     if (!context.DbSet<Product>().Any())
+                    {
 
                         if (File.Exists(FILE_JSON_PRODUCT))
                         {
@@ -319,59 +320,61 @@ namespace Infrastructure.Factory
                         }
 
 
-                    if (Directory.Exists(FILE_IMAGES))
-                    {
-                        var ext = new List<string> {".jpg", ".png"};
-
-                        var imageFile = Directory.GetFiles(FILE_IMAGES, "*.*", SearchOption.AllDirectories)
-                            .Where(c => ext.Contains(Path.GetExtension(c).ToLowerInvariant()))
-                            .Select(c => new
-                            {
-                                fileName = new FileInfo(c).Name
-                            }).ToList();
-
-                        imageFile.ForEach(x => listImagesProduct.Add(x.fileName));
-                    }
-                    Randomizer.Seed = new Random(675309);
-                    var productIds= 1;
-                    var productList = new Faker<Product>()
-                        .RuleFor(p => p.Id, p => p.Random.Int(1))
-                        .RuleFor(p => p.Name, p => p.Commerce.ProductName())
-                        .RuleFor(p => p.Description, p => p.Commerce.Product())
-                        .RuleFor(p => p.Price, p => p.Random.Decimal(10, 100))
-                        .RuleFor(p => p.PictureUrl,
-                            p => p.PickRandom(listImagesProduct) ?? "https://dummyimage.com/300")
-                        .Generate(100);
-
-                    foreach (var product in productList)
-                    {
-                        product.DisplaySite = product.Name.ConvertNameConventionUrlWeb();
-                        foreach (var productBrand in fakerProductBrandList)
+                        if (Directory.Exists(FILE_IMAGES))
                         {
-                            var productExist = productList.Any(x => x.ProductBrandId.Equals(productBrand.Id));
-                            if (!productExist)
+                            var ext = new List<string> {".jpg", ".png"};
+
+                            var imageFile = Directory.GetFiles(FILE_IMAGES, "*.*", SearchOption.AllDirectories)
+                                .Where(c => ext.Contains(Path.GetExtension(c).ToLowerInvariant()))
+                                .Select(c => new
+                                {
+                                    fileName = new FileInfo(c).Name
+                                }).ToList();
+
+                            imageFile.ForEach(x => listImagesProduct.Add(x.fileName));
+                        }
+
+                        Randomizer.Seed = new Random(675309);
+                        var productIds = 1;
+                        var productList = new Faker<Product>()
+                            .RuleFor(p => p.Id, p => p.Random.Int(1))
+                            .RuleFor(p => p.Name, p => p.Commerce.ProductName())
+                            .RuleFor(p => p.Description, p => p.Lorem.Paragraph())
+                            .RuleFor(p => p.Price, p => p.Random.Decimal(10, 100))
+                            .RuleFor(p => p.PictureUrl,
+                                p => p.PickRandom(listImagesProduct) ?? "https://dummyimage.com/300")
+                            .Generate(100);
+
+                        foreach (var product in productList)
+                        {
+                            product.DisplaySite = product.Name.ConvertNameConventionUrlWeb();
+                            foreach (var productBrand in fakerProductBrandList)
                             {
-                                product.ProductBrandId = productBrand.Id;
-                                continue;
+                                var productExist = productList.Any(x => x.ProductBrandId.Equals(productBrand.Id));
+                                if (!productExist)
+                                {
+                                    product.ProductBrandId = productBrand.Id;
+                                    continue;
+                                }
+                            }
+
+                            foreach (var productType in fakerProductTypeList)
+                            {
+                                var productExist = productList.Any(x => x.ProductTypeId.Equals(productType.Id));
+                                if (!productExist)
+                                {
+                                    product.ProductTypeId = productType.Id;
+                                    continue;
+                                }
                             }
                         }
 
-                        foreach (var productType in fakerProductTypeList)
+                        fakerProductList.AddRange(productList);
+                        using (var file = File.CreateText(FILE_JSON_PRODUCT))
                         {
-                            var productExist = productList.Any(x => x.ProductTypeId.Equals(productType.Id));
-                            if (!productExist)
-                            {
-                                product.ProductTypeId = productType.Id;
-                                continue;
-                            }
+                            var serializer = new JsonSerializer();
+                            serializer.Serialize(file, fakerProductList);
                         }
-                    }
-
-                    fakerProductList.AddRange(productList);
-                    using (var file = File.CreateText(FILE_JSON_PRODUCT))
-                    {
-                        var serializer = new JsonSerializer();
-                        serializer.Serialize(file, fakerProductList);
                     }
                 }
                 catch (System.Exception ex)

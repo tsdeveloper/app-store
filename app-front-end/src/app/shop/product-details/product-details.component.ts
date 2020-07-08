@@ -3,6 +3,7 @@ import {IProduct} from "../../models/product";
 import {ShopService} from "../shop.service";
 import {ActivatedRoute} from "@angular/router";
 import {ShopParams} from "../../models/shopParams";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-product-details',
@@ -10,6 +11,7 @@ import {ShopParams} from "../../models/shopParams";
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
+  urlPublicImage = environment.urlPublicImage;
   product: IProduct;
   shopParams = new ShopParams();
   constructor(private shopService: ShopService, private activateRoute: ActivatedRoute) { }

@@ -98,8 +98,7 @@ namespace Migrations.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varchar(180) CHARACTER SET utf8mb4")
-                        .HasMaxLength(180);
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("DisplaySite")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
