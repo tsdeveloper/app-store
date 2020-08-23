@@ -1,6 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.min.css", "~ngx-bootstrap/datepicker/bs-datepicker.css",
-"~font-awesome/css/font-awesome.min.css", '~ngx-toastr/toastr.css';
+@import '~bootstrap/dist/css/bootstrap.min.css', '~ngx-bootstrap/datepicker/bs-datepicker.css',
+'~bootswatch/dist/materia/bootstrap.min.css',
+'~font-awesome/css/font-awesome.min.css', '~ngx-toastr/toastr.css';
+
+.xng-breadcrumb-root {
+  padding: 8px 16px;
+  display: inline;
+  border-radius: 0;
+}
+
+label.xng-breadcrumb-trail {
+  margin-bottom: 0;
+  color: orange;
+}
+.xng-breadcrumb-separator {
+  padding: 0 0;
+}
 
 
 

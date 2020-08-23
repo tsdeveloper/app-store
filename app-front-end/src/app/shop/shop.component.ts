@@ -39,7 +39,9 @@ export class ShopComponent implements OnInit {
       this.shopParams.pageNumber = res.pageIndex;
       this.shopParams.pageSize = res.pageSize;
       this.totalCount = res.count;
-    }, error => console.log(error));
+    }, error =>
+        console.log(error)
+    );
   }
 
   getProductBrands() {

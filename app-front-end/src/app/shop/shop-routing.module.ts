@@ -6,7 +6,7 @@ import {ProductDetailsComponent} from './product-details/product-details.compone
 
 const routes: Routes = [
   {path: '', component: ShopComponent},
-  {path: ':id/:name', component: ProductDetailsComponent},
+  {path: ':id/:name', component: ProductDetailsComponent, data: {breadcrumb: {alias: 'productDetails'}}},
 ];
 
 
