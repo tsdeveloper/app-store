@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace API {
     public class Startup {
@@ -40,7 +41,12 @@ namespace API {
             services.AddDbContext<AppStoreContext>(o => o.UseMySql(dbConn,
                 x => x.MigrationsAssembly("Migrations")));
 
-
+            services.AddSingleton<ConnectionMultiplexer>(c =>
+            {
+                var config = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"),
+                    true);
+                return ConnectionMultiplexer.Connect(config);
+            });
 
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
@@ -58,6 +64,7 @@ namespace API {
         {
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
+            
 
             app.UseHttpsRedirection ();
 
