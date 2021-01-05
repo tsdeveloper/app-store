@@ -43,7 +43,7 @@ namespace API {
 
             services.AddSingleton<ConnectionMultiplexer>(c =>
             {
-                var config = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"),
+                var config = ConfigurationOptions.Parse(_config.GetConnectionString("RedisServer"),
                     true);
                 return ConnectionMultiplexer.Connect(config);
             });
