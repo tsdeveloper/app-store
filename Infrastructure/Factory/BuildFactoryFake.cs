@@ -25,19 +25,26 @@ namespace Infrastructure.Factory
         private static List<SortOption> fakerSortOptionList;
 
         private const string URLAPI = @"localhost:5001/api";
-        private const string FILE_JSON_PRODUCT_BRANDS = @"../Infrastructure/SeedData/ProductBrands.json";
-        private const string FILE_JSON_PRODUCT_TYPES = @"../Infrastructure/SeedData/ProductTypes.json";
-        private const string FILE_JSON_PRODUCT = @"../Infrastructure/SeedData/Product.json";
-        private const string FILE_JSON_EVENT = @"../Infrastructure/SeedData/Event.json";
-        private const string FILE_JSON_CLIENT = @"../Infrastructure/SeedData/Client.json";
-        private const string FILE_JSON_TICKET = @"../Infrastructure/SeedData/Ticket.json";
-        private const string FILE_JSON_SORT_OPTION = @"../Infrastructure/SeedData/SortOption.json";
-        private const string FILE_IMAGES = @"../Infrastructure/SeedData/Images";
+        private const string PATH_SEED = @"../Infrastructure/SeedData";
+        private static  string FILE_JSON_PRODUCT_BRANDS = $@"{PATH_SEED}/ProductBrands.json";
+        private static string FILE_JSON_PRODUCT_TYPES = $@"{PATH_SEED}/ProductTypes.json";
+        private static string FILE_JSON_PRODUCT = $@"{PATH_SEED}/Product.json";
+        private static string FILE_JSON_EVENT = $@"{PATH_SEED}/Event.json";
+        private static string FILE_JSON_CLIENT = $@"{PATH_SEED}/Client.json";
+        private static  string FILE_JSON_TICKET = $@"{PATH_SEED}/Ticket.json";
+        private static string FILE_JSON_SORT_OPTION = $@"{PATH_SEED}/SortOption.json";
+        private static string FILE_IMAGES = $@"{PATH_SEED}/Images";
 
         public static async Task BuildFactoryAsync(AppStoreContext context, ILoggerFactory loggerFactory)
         {
             try
             {
+                if (!Directory.Exists(PATH_SEED))
+                {
+                    Directory.CreateDirectory(PATH_SEED);
+                }
+
+                
                 await GenerateBuildFactoryClient(context,
                     loggerFactory,
                     true);
@@ -81,7 +88,8 @@ namespace Infrastructure.Factory
                     try
                     {
                         if (!context.DbSet<Client>().Any())
-
+                            
+                          
                             if (File.Exists(FILE_JSON_CLIENT))
                             {
                                 File.Delete(FILE_JSON_CLIENT);
@@ -337,12 +345,12 @@ namespace Infrastructure.Factory
                         Randomizer.Seed = new Random(675309);
                         var productIds = 1;
                         var productList = new Faker<Product>()
-                            .RuleFor(p => p.Id, p => p.Random.Int(1))
+                            .RuleFor(p => p.Id, p => productIds++)
                             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
                             .RuleFor(p => p.Description, p => p.Lorem.Paragraph())
                             .RuleFor(p => p.Price, p => p.Random.Decimal(10, 100))
                             .RuleFor(p => p.PictureUrl,
-                                p => p.PickRandom(listImagesProduct) ?? "https://dummyimage.com/300")
+                                p => listImagesProduct.Any() ? p.PickRandom(listImagesProduct) : "https://dummyimage.com/300")
                             .Generate(100);
 
                         foreach (var product in productList)

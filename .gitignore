@@ -1,7 +1,7 @@
 
 # Created by https://www.gitignore.io/api/vue,node,vuejs,react,redis,csharp,angular,laravel,composer,dotnetcore,visualstudio,jetbrains+all,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=vue,node,vuejs,react,redis,csharp,angular,laravel,composer,dotnetcore,visualstudio,jetbrains+all,visualstudiocode
-
+**/SeedData/*
 *aula*
 ### Angular ###
 ## Angular ##
