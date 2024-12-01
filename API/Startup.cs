@@ -38,8 +38,11 @@ namespace API {
             services.AddControllers();
             var dbConn = _config.GetConnectionString("DEV-DOCKER-SQLSERVER");
 
+           var migrationAssembly = typeof(Migrations.Class1).Assembly.FullName;
+
+
             services.AddDbContext<AppStoreContext>(o => o.UseSqlServer(dbConn,
-                x => x.MigrationsAssembly("Migrations")));
+                x => x.MigrationsAssembly(migrationAssembly)));
 
             services.AddSingleton<ConnectionMultiplexer>(c =>
             {

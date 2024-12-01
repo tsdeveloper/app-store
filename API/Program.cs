@@ -28,8 +28,8 @@ namespace API
                 {
                     var context = services.GetRequiredService<AppStoreContext>();
                     await context.Database.MigrateAsync();
-                    await BuildFactoryFake.BuildFactoryAsync(context, loggerFactory);
-                    await BuildFactorySeed.SeedAsync(context, loggerFactory);
+                    // await BuildFactoryFake.BuildFactoryAsync(context, loggerFactory);
+                    // await BuildFactorySeed.SeedAsync(context, loggerFactory);
 
                 }
                 catch (Exception ex)

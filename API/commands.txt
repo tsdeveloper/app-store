@@ -14,6 +14,8 @@ dotnet  add Infrastructure/ package Microsoft.VisualStudio.Web.CodeGeneration.En
  dotnet ef database update -p <assembly> -s <api-project> -c <namespace-full-dbcontext> 
 
 ##ADD
+dotnet ef migrations add initial -p Migrations -s API
+
 dotnet ef migrations add <name-migrations>  -p <assembly> -s <api-project> -c <namespace-full-dbcontext> -o <path-migrations>
 dotnet ef database update   -p <assembly> -s <api-project> -c <namespace-full-dbcontext> 
 

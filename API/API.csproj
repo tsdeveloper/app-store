@@ -34,5 +34,7 @@
     <Folder Include="Helpers\Clients" />
   </ItemGroup>
 
-
+<PropertyGroup>
+  <OutputPath>..\Migrations\bin\$(Configuration)\</OutputPath>
+</PropertyGroup>
 </Project>
