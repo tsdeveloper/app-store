@@ -36,14 +36,14 @@ namespace API {
 
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
-            var dbConn = _config.GetConnectionString("MySqlConn");
+            var dbConn = _config.GetConnectionString("DEV-DOCKER-SQLSERVER");
 
             services.AddDbContext<AppStoreContext>(o => o.UseMySql(dbConn,
                 x => x.MigrationsAssembly("Migrations")));
 
             services.AddSingleton<ConnectionMultiplexer>(c =>
             {
-                var config = ConfigurationOptions.Parse(_config.GetConnectionString("RedisServer"),
+                var config = ConfigurationOptions.Parse(_config.GetConnectionString("DEV-DOCKER-REDIS"),
                     true);
                 return ConnectionMultiplexer.Connect(config);
             });
