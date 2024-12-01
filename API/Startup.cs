@@ -38,7 +38,7 @@ namespace API {
             services.AddControllers();
             var dbConn = _config.GetConnectionString("DEV-DOCKER-SQLSERVER");
 
-            services.AddDbContext<AppStoreContext>(o => o.UseMySql(dbConn,
+            services.AddDbContext<AppStoreContext>(o => o.UseSqlServer(dbConn,
                 x => x.MigrationsAssembly("Migrations")));
 
             services.AddSingleton<ConnectionMultiplexer>(c =>
